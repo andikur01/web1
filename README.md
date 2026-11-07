@@ -96,6 +96,20 @@ Peran tidak pernah ditampilkan sebagai "karyawan" ke pengguna; selalu "Tim".
 `GLM_OWNER_PIN`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`,
 `SMTP_FROM`, `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `GOOGLE_CLIENT_ID`, `NODE_ENV`.
 
+### Mengaktifkan "Masuk dengan Google"
+
+1. Buka [Google Cloud Console](https://console.cloud.google.com/apis/credentials) ->
+   **Create Credentials -> OAuth client ID -> Web application**.
+2. Di **Authorized JavaScript origins**, tambahkan URL tempat situs dijalankan
+   (contoh `https://toko.example.com`, `http://localhost:12000`). Origin wajib sama
+   persis dengan asal halaman, termasuk skema dan port.
+3. Set `GOOGLE_CLIENT_ID=<client-id>` di env server, lalu jalankan ulang server.
+   Tombol Google otomatis muncul di halaman masuk dan daftar.
+
+Catatan: di GitHub Pages (mode demo) Google tidak bisa dipakai karena callback
+membutuhkan backend. Tanpa `GOOGLE_CLIENT_ID`, halaman menampilkan catatan
+"Masuk dengan Google belum aktif".
+
 ## Struktur & pengembangan
 
 Lihat `AGENTS.md` untuk peta file, arsitektur, dan konvensi. Arah desain ada di
