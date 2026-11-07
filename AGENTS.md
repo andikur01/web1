@@ -22,28 +22,41 @@ npm run reset-db     # hapus data/glm.db; dijalankan ulang saat start berikutnya
 
 ```
 server/
-  server.js       # Express: semua route API + penyajian halaman statis
-  db.js           # skema SQLite, migrasi ringan, seed owner + produk contoh
-  crypto-util.js  # scrypt (hash), AES-256-GCM (vault PIN), token/PIN acak
-  realtime.js     # klien SSE: presence, aktivitas, broadcast
-  mailer.js       # SMTP kalau ada; kalau tidak, tulis ke outbox di DB
-public/
-  index.html      # storefront publik
-  login.html      # /masuk - pintu masuk panel internal (login, daftar, verifikasi, PIN)
-  dashboard.html  # panel internal (pantau, kelola, saya)
-  assets/css/     # tokens.css (variabel + reset), site.css, auth.css, dash.css
-  assets/js/      # site.js, login.js, dash.js, secret-login.js, bubbles.js, ui.js
-  assets/img/     # foto laptop (lokal, bukan hotlink)
-data/             # glm.db + secret.key (tidak masuk git)
+  server.js        # Express: semua route API + penyajian halaman statis
+  db.js            # skema SQLite, migrasi ringan, seed owner + produk contoh
+  crypto-util.js   # scrypt (hash), AES-256-GCM (vault PIN), token/PIN acak
+  realtime.js      # klien SSE: presence, aktivitas, broadcast
+  mailer.js        # SMTP kalau ada; kalau tidak, tulis ke outbox di DB
+  build-static.mjs # tulis snapshot data demo ke assets/js/env.js (untuk Pages)
+index.html         # storefront publik (root supaya GitHub Pages bisa menyajikan)
+masuk.html         # /masuk - pintu masuk panel internal (login, daftar, verifikasi, PIN)
+dashboard/
+  index.html       # panel internal (pantau, kelola, saya)
+assets/css/        # tokens.css (variabel + reset), site.css, auth.css, dash.css
+assets/js/         # site.js, login.js, dash.js, secret-login.js, bubbles.js, ui.js
+                   # base.js (deteksi base path), env.js (snapshot data demo, hasil generate)
+assets/img/        # foto laptop (lokal, bukan hotlink)
+data/              # glm.db + secret.key (tidak masuk git)
 ```
+
+
+## Dua mode hosting
+
+- **Server Node** (`npm start`): semua fitur hidup. Route ramah: `/`, `/masuk`, `/dashboard`.
+- **GitHub Pages** (statis): hanya storefront, data dari `assets/js/env.js`. Halaman
+  `masuk.html` / `dashboard/` menampilkan notice "Mode demo".
+- Base path dihitung sekali per halaman (root `/` di server, `/<repo>/` di Pages) dan
+  dipasang sebagai `<base href>` + `window.GLM_BASE`. Navigasi lewat `GLM.nav()`.
+  Jangan hardcode `href="/"` atau `location.href = '/...'`.
+- Aset **selalu relatif** (`assets/...`), jangan diawali `/`.
 
 ## Arsitektur
 
 - **Tanpa framework.** DOM dibangun dengan helper kecil (`el`, `setText`, `escapeHtml`).
   Jangan menambah React/Vue/Tailwind atau build step.
 - **Satu sumber desain:** `DESIGN.md` (arah visual) disaring `antislop.md` (aturan anti-slop).
-  Semua nilai visual diambil dari CSS custom property di `public/assets/css/tokens.css`.
-- **Ikon:** Lucide lokal (`public/assets/lib/lucide.min.js`). Jangan pakai emoji.
+  Semua nilai visual diambil dari CSS custom property di `assets/css/tokens.css`.
+- **Ikon:** Lucide lokal (`assets/lib/lucide.min.js`). Jangan pakai emoji.
 - **Atribut `hidden` wajib menang.** `tokens.css` memuat `[hidden] { display: none !important }`
   supaya gating peran tidak bisa ditimpa `display: flex/grid`.
 
