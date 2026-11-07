@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="id" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GLM - Toko Laptop Original &amp; Bergaransi</title>
+<meta name="description" content="GLM Laptop Store: jual laptop gaming, kerja, desain, dan ultrabook original bergaransi. Cek stok ready, konsultasi gratis, pesan langsung lewat WhatsApp.">
+<meta name="theme-color" content="#0a0a0a">
+<meta property="og:title" content="GLM - Toko Laptop Original &amp; Bergaransi">
+<meta property="og:description" content="Stok unit asli, garansi resmi, konsultasi sebelum beli.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0a'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='15' font-weight='700' fill='%23c9a96e' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/Inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/SpaceGrotesk-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/lib/swiper-bundle.min.css">
+<link rel="stylesheet" href="assets/lib/lenis.css">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<script>document.documentElement.classList.remove('no-js');</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Lewati ke konten utama</a>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="Memuat halaman">
+  <div class="preloader__inner">
+    <div class="preloader__video" id="preloaderVideo" hidden></div>
+    <p class="preloader__word" id="preloaderWord">GLM</p>
+    <p class="preloader__sub" id="preloaderSub">Resmi &amp; Bergaransi</p>
+    <div class="preloader__bar" aria-hidden="true"><span id="preloaderBar"></span></div>
+    <p class="preloader__pct" id="preloaderPct">0%</p>
+  </div>
+</div>
+
+<div class="progress" id="progress" role="presentation"></div>
+<div class="grain" aria-hidden="true"></div>
+<canvas class="bubbles" id="bubbles" aria-hidden="true"></canvas>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+<!-- Navbar -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <button class="logo" id="logo" type="button" aria-label="GLM Laptop Store, beranda">
+      <img id="logoImage" src="" alt="" hidden>
+      <span id="logoText">GLM</span>
+      <span class="logo__sub" id="logoSub">Laptop Store</span>
+    </button>
+
+    <nav class="nav__links" aria-label="Navigasi utama">
+      <a href="#beranda">Beranda</a>
+      <a href="#produk">Produk</a>
+      <a href="#merek">Merek</a>
+      <a href="#promo">Promo</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+
+    <div class="nav__actions">
+      <button class="icon-btn" id="searchBtn" type="button" aria-label="Cari produk">
+        <i data-lucide="search"></i>
+      </button>
+      <button class="icon-btn" id="cartBtn" type="button" aria-label="Buka keranjang">
+        <i data-lucide="shopping-bag"></i>
+        <span class="badge" id="cartBadge" hidden>0</span>
+      </button>
+      <a class="btn btn--primary btn--sm" href="#produk">Belanja Sekarang</a>
+      <button class="icon-btn nav__burger" id="burger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="drawer">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="nav__drawer" id="drawer" aria-label="Navigasi seluler">
+  <a href="#beranda">Beranda</a>
+  <a href="#produk">Produk</a>
+  <a href="#merek">Merek</a>
+  <a href="#promo">Promo</a>
+  <a href="#kontak">Kontak</a>
+</nav>
+
+<!-- Dynamic Island -->
+<button class="island" id="island" type="button" aria-live="polite" aria-label="Notifikasi toko">
+  <span class="island__dot" aria-hidden="true"></span>
+  <span class="island__content">
+    <span class="island__icon" aria-hidden="true"><i data-lucide="bell"></i></span>
+    <span class="island__text">
+      <b id="islandTitle">Selamat datang di GLM</b>
+      <span id="islandBody">Stok unit dan promo diperbarui setiap hari.</span>
+    </span>
+  </span>
+</button>
+
+<main id="main">
+  <!-- Hero -->
+  <section class="hero" id="beranda" aria-labelledby="heroTitle">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__grid"></div>
+      <div class="hero__glow" id="heroGlow"></div>
+      <div class="hero__spot" id="heroSpot"></div>
+    </div>
+    <div class="wrap hero__inner">
+      <div class="hero__copy" id="heroCopy">
+        <p class="eyebrow" id="heroLabel">GLM Laptop Store - Resmi &amp; Bergaransi</p>
+        <h1 id="heroTitle">
+          <span id="heroTitleText">Laptop Impian Kamu,</span>
+          <span class="hero__type" id="heroType" aria-live="polite"></span>
+        </h1>
+        <p class="hero__desc" id="heroDesc">Stok unit asli, garansi resmi, dan konsultasi sebelum beli.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" id="magneticBtn" href="#produk">Lihat Stok Ready</a>
+          <a class="btn btn--ghost" id="consultBtn" href="#kontak">Konsultasi Gratis</a>
+        </div>
+        <dl class="hero__stats">
+          <div class="hero__stat">
+            <dt class="sr-only">Jumlah pelanggan</dt>
+            <dd><b id="statCustomers" data-count="0">0</b><span>Pelanggan</span></dd>
+          </div>
+          <div class="hero__stat">
+            <dt class="sr-only">Jumlah model</dt>
+            <dd><b id="statModels" data-count="0">0</b><span>Model tersedia</span></dd>
+          </div>
+          <div class="hero__stat">
+            <dt class="sr-only">Jaminan keaslian</dt>
+            <dd><b id="statWarranty">Garansi Resmi</b><span>Setiap unit</span></dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="hero__stage">
+        <div class="hero__slides" id="heroSlides"></div>
+        <div class="hero__float">
+          <div class="hero__caption">
+            <b id="heroCaptionName">-</b>
+            <span id="heroCaptionPrice">-</span>
+          </div>
+        </div>
+        <div class="hero__dots" id="heroDots" role="tablist" aria-label="Pilih model unggulan"></div>
+      </div>
+    </div>
+    <p class="hero__scroll" aria-hidden="true"><span>Scroll</span><i></i></p>
+  </section>
+
+  <!-- Marquee -->
+  <section class="marquee" id="merek" aria-label="Merek yang kami jual">
+    <div class="marquee__track" id="marqueeTrack"></div>
+  </section>
+
+  <!-- Produk -->
+  <section class="section" id="produk" aria-labelledby="produkTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Stok hari ini</p>
+          <h2 id="produkTitle">Stok Ready Hari Ini</h2>
+          <p>Semua unit asli dan bergaransi. Klik kartu untuk melihat spesifikasi lengkap.</p>
+        </div>
+        <p class="live">Diperbarui dari dashboard</p>
+      </div>
+
+      <div class="toolbar">
+        <div class="tabs" id="categoryTabs" role="tablist" aria-label="Filter kategori">
+          <button class="tab" role="tab" aria-selected="true" data-cat="all">Semua</button>
+          <button class="tab" role="tab" aria-selected="false" data-cat="gaming">Gaming</button>
+          <button class="tab" role="tab" aria-selected="false" data-cat="office">Kerja / Office</button>
+          <button class="tab" role="tab" aria-selected="false" data-cat="desain">Desain</button>
+          <button class="tab" role="tab" aria-selected="false" data-cat="ultrabook">Ultrabook</button>
+        </div>
+        <p class="eyebrow" id="productCount" style="margin-left:auto"></p>
+      </div>
+
+      <div class="grid-products" id="productGrid"></div>
+      <div class="empty" id="productEmpty" hidden>
+        <h3>Belum ada produk di kategori ini</h3>
+        <p>Produk akan muncul di sini setelah ditambahkan dari dashboard.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kategori horizontal -->
+  <section class="section section--tight" id="kategori" aria-labelledby="kategoriTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Pilih sesuai kebutuhan</p>
+          <h2 id="kategoriTitle">Kategori Laptop</h2>
+        </div>
+      </div>
+    </div>
+    <div class="hscroll">
+      <div class="hscroll__track" id="catTrack"></div>
+    </div>
+  </section>
+
+  <!-- Pinned showcase -->
+  <section class="pin" id="unggulan" aria-labelledby="pinTitle">
+    <div class="pin__sticky">
+      <div class="wrap pin__grid">
+        <div class="pin__notes" id="pinNotesLeft"></div>
+        <div class="pin__stage">
+          <span class="pin__ring" aria-hidden="true"></span>
+          <img id="pinImage" src="assets/img/hero-rog.jpg" alt="Laptop unggulan GLM" width="900" height="900" loading="lazy">
+        </div>
+        <div class="pin__notes pin__notes--right" id="pinNotesRight">
+          <div class="pin__note">
+            <h4 id="pinTitle">Laptop unggulan</h4>
+            <p>Unit yang paling sering dicari pelanggan kami, dari kelas kerja sampai gaming.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento -->
+  <section class="section" id="kenapa" aria-labelledby="kenapaTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Alasan belanja di GLM</p>
+          <h2 id="kenapaTitle">Kenapa Pilih GLM</h2>
+        </div>
+      </div>
+      <div class="bento">
+        <article class="bento__cell bento__cell--wide">
+          <span class="bento__icon"><i data-lucide="shield-check"></i></span>
+          <h3>Garansi Resmi</h3>
+          <p>Setiap unit keluar dengan garansi resmi distributor dan nota pembelian yang jelas.</p>
+        </article>
+        <article class="bento__cell">
+          <span class="bento__icon"><i data-lucide="credit-card"></i></span>
+          <h3>Cicilan 0%</h3>
+          <p>Tenor menyesuaikan kartu dan mitra pembiayaan.</p>
+        </article>
+        <article class="bento__cell bento__cell--tall">
+          <span class="bento__icon"><i data-lucide="truck"></i></span>
+          <h3>Gratis Ongkir</h3>
+          <p>Pengiriman aman dengan packing berlapis untuk area tertentu.</p>
+          <p>Kami juga menyediakan opsi pengiriman instan untuk wilayah kota besar.</p>
+        </article>
+        <article class="bento__cell">
+          <span class="bento__icon"><i data-lucide="repeat"></i></span>
+          <h3>Tukar Tambah</h3>
+          <p>Laptop lama bisa dihitung sebagai pengurang harga.</p>
+        </article>
+        <article class="bento__cell">
+          <span class="bento__icon"><i data-lucide="messages-square"></i></span>
+          <h3>Konsultasi 24/7</h3>
+          <p>Tanya spesifikasi sebelum beli, dijawab langsung lewat WhatsApp.</p>
+        </article>
+        <article class="bento__cell">
+          <span class="bento__icon"><i data-lucide="wrench"></i></span>
+          <h3>Rakit &amp; Upgrade</h3>
+          <p>Tambah RAM atau SSD sebelum unit dikirim.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promo -->
+  <section class="section" id="promo" aria-labelledby="promoTitle">
+    <div class="wrap">
+      <div class="promo">
+        <div class="promo__body">
+          <p class="eyebrow">Promo berjalan</p>
+          <h2 id="promoTitle">Flash Sale Minggu Ini</h2>
+          <p style="color:var(--muted)" id="promoDesc">Harga khusus untuk unit tertentu selama periode promo.</p>
+          <div class="countdown" id="countdown" aria-label="Sisa waktu promo">
+            <div><b id="cdDays">0</b><span>Hari</span></div>
+            <div><b id="cdHours">0</b><span>Jam</span></div>
+            <div><b id="cdMinutes">0</b><span>Menit</span></div>
+            <div><b id="cdSeconds">0</b><span>Detik</span></div>
+          </div>
+          <p id="promoStatus" style="color:var(--muted);font-size:13px">Jadwal promo belum diisi.</p>
+          <div>
+            <a class="btn btn--primary" href="#produk">Lihat unit promo</a>
+          </div>
+        </div>
+        <div class="promo__media" data-clip>
+          <img src="assets/img/banner-1.jpg" alt="Meja kerja dengan beberapa laptop" width="1600" height="900" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimoni -->
+  <section class="section" id="ulasan" aria-labelledby="ulasanTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Kata pelanggan</p>
+          <h2 id="ulasanTitle">Ulasan Pelanggan</h2>
+        </div>
+      </div>
+      <div class="swiper" id="reviewSwiper">
+        <div class="swiper-wrapper" id="reviewWrapper"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+      <div class="empty" id="reviewEmpty" hidden>
+        <h3>Belum ada ulasan</h3>
+        <p>Ulasan pelanggan asli akan tampil di sini setelah dikelola dari dashboard.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="footer" id="kontak">
+  <div class="wrap">
+    <div class="footer__cols">
+      <div>
+        <h4>Tentang GLM</h4>
+        <p style="color:var(--muted);font-size:14px">
+          GLM Laptop Store menjual laptop original bergaransi untuk kebutuhan kerja, desain, dan gaming.
+          Kami bantu pilih unit yang sesuai sebelum kamu beli.
+        </p>
+      </div>
+      <div>
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="#produk">Stok Ready</a></li>
+          <li><a href="#merek">Merek</a></li>
+          <li><a href="#promo">Promo</a></li>
+          <li><a href="#ulasan">Ulasan</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontak</h4>
+        <ul>
+          <li><a id="footerWa" href="#">WhatsApp</a></li>
+          <li><a id="footerMail" href="mailto:halo@glm.local">halo@glm.local</a></li>
+          <li><span id="footerAddress" style="color:var(--muted);font-size:14px">Alamat belum diisi</span></li>
+        </ul>
+        <ul style="margin-top:var(--sp-4)">
+          <li><a id="socialIg" href="#" rel="noopener noreferrer" target="_blank" hidden>Instagram</a></li>
+          <li><a id="socialTt" href="#" rel="noopener noreferrer" target="_blank" hidden>TikTok</a></li>
+          <li><a id="socialYt" href="#" rel="noopener noreferrer" target="_blank" hidden>YouTube</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Lokasi &amp; Info</h4>
+        <div class="footer__map" id="footerMap"></div>
+        <form class="newsletter" id="newsletterForm">
+          <label class="sr-only" for="newsletterEmail">Email untuk info promo</label>
+          <input id="newsletterEmail" type="email" placeholder="Email kamu" required>
+          <button class="btn btn--primary btn--sm" type="submit">Kirim</button>
+        </form>
+        <p id="newsletterNote" style="color:var(--muted);font-size:12px;margin-top:8px">
+          Kami kirim info stok dan promo baru.
+        </p>
+      </div>
+    </div>
+  </div>
+  <p class="footer__word" id="footerWord" aria-hidden="true">GLM</p>
+  <div class="wrap footer__base">
+    <span>&copy; <span id="year"></span> GLM Laptop Store</span>
+    <span>Harga dapat berubah tanpa pemberitahuan.</span>
+  </div>
+</footer>
+
+<button class="wa" id="waFloat" type="button" aria-label="Hubungi kami lewat WhatsApp">
+  <i data-lucide="message-circle"></i><span>Chat WhatsApp</span>
+</button>
+
+<!-- Keranjang -->
+<div class="drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+  <div class="drawer__scrim" data-close-cart></div>
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <h3 id="cartTitle">Keranjang</h3>
+      <button class="icon-btn" type="button" data-close-cart aria-label="Tutup keranjang"><i data-lucide="x"></i></button>
+    </div>
+    <div class="drawer__list" id="cartList"></div>
+    <div class="drawer__foot">
+      <div class="cart-total"><span>Total estimasi</span><b id="cartTotal">Rp 0</b></div>
+      <p style="color:var(--muted);font-size:12px">Total final dikonfirmasi lewat WhatsApp.</p>
+      <button class="btn btn--primary btn--block" id="checkoutBtn" type="button">
+        <i data-lucide="send"></i> Pesan lewat WhatsApp
+      </button>
+      <button class="btn btn--ghost btn--block btn--sm" id="clearCart" type="button">Kosongkan keranjang</button>
+    </div>
+  </div>
+</div>
+
+<!-- Quick view -->
+<div class="modal" id="productModal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+  <div class="modal__scrim" data-close-modal></div>
+  <div class="modal__panel">
+    <button class="icon-btn modal__close" type="button" data-close-modal aria-label="Tutup detail produk"><i data-lucide="x"></i></button>
+    <div class="modal__media"><img id="modalImage" src="" alt="" width="800" height="600"></div>
+    <div class="modal__body">
+      <p class="card__brand" id="modalBrand"></p>
+      <h3 id="modalName"></h3>
+      <p id="modalSummary" style="color:var(--muted);font-size:14px"></p>
+      <ul class="specs" id="modalSpecs"></ul>
+      <p id="modalNotes" style="color:var(--muted);font-size:13px"></p>
+      <div class="card__price"><b id="modalPrice"></b><s id="modalOld"></s></div>
+      <div style="display:flex;gap:var(--sp-2);margin-top:auto">
+        <button class="btn btn--primary btn--block" id="modalAdd" type="button">Tambah ke Keranjang</button>
+        <button class="btn btn--ghost" id="modalWa" type="button" aria-label="Tanya lewat WhatsApp"><i data-lucide="message-circle"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<script src="assets/lib/gsap.min.js" defer></script>
+<script src="assets/lib/ScrollTrigger.min.js" defer></script>
+<script src="assets/lib/SplitText.min.js" defer></script>
+<script src="assets/lib/lenis.min.js" defer></script>
+<script src="assets/lib/typed.umd.js" defer></script>
+<script src="assets/lib/swiper-bundle.min.js" defer></script>
+<script src="assets/lib/vanilla-tilt.min.js" defer></script>
+<script src="assets/lib/lucide.min.js" defer></script>
+<script src="assets/js/ui.js" defer></script>
+<script src="assets/js/bubbles.js" defer></script>
+<script src="assets/js/site.js" defer></script>
+<script src="assets/js/secret-login.js" defer></script>
+</body>
+</html>

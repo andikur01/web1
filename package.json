@@ -1,0 +1,19 @@
+{
+  "name": "glm-laptop-store",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GLM Laptop Store - website toko laptop premium + dashboard internal rahasia",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "reset-db": "node server/reset-db.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "nodemailer": "^6.10.1"
+  }
+}

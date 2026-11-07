@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masuk Panel GLM</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0a'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='15' font-weight='700' fill='%23c9a96e' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/auth.css">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+<div class="auth">
+  <aside class="auth__side">
+    <a class="auth__brand" href="/"><span id="brandText">GLM</span> <span class="logo__sub" id="brandSub">Laptop Store</span></a>
+    <div>
+      <h1>Panel internal GLM</h1>
+      <p>Kelola stok, akun tim, dan pengaturan toko dari satu tempat. Perangkat yang sudah dikenal tidak perlu PIN lagi.</p>
+      <ul class="auth__points">
+        <li><i data-lucide="shield-check"></i><span>Perangkat baru diverifikasi dengan PIN yang dikirim ke email akun.</span></li>
+        <li><i data-lucide="activity"></i><span>Semua aktivitas masuk dan perubahan tercatat sebagai log.</span></li>
+        <li><i data-lucide="users"></i><span>Akun tim dibuat dari dalam panel, bukan dari halaman ini.</span></li>
+      </ul>
+    </div>
+    <p style="font-size:13px;color:var(--muted-2)"><a href="/" style="color:var(--accent)">Kembali ke toko</a></p>
+  </aside>
+
+  <main class="auth__main">
+    <div class="auth__card">
+      <!-- Panel: masuk -->
+      <section class="panel" id="panelLogin">
+        <h2>Masuk</h2>
+        <p>Gunakan email atau username yang terdaftar.</p>
+
+        <div class="seg" role="tablist" aria-label="Pilih mode">
+          <button type="button" role="tab" aria-selected="true" data-mode="login">Masuk</button>
+          <button type="button" role="tab" aria-selected="false" data-mode="register">Daftar</button>
+        </div>
+
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label for="loginIdent">Email atau username</label>
+            <input id="loginIdent" name="identifier" type="text" autocomplete="username" required>
+            <span class="err" id="loginIdentErr"></span>
+          </div>
+          <div class="field">
+            <label for="loginPass">Password</label>
+            <input id="loginPass" name="password" type="password" autocomplete="current-password" required>
+            <span class="err" id="loginPassErr"></span>
+          </div>
+          <div class="field">
+            <label class="sr-only" for="loginCaptcha">Verifikasi keamanan</label>
+            <div class="cf-turnstile" id="loginCaptcha" data-theme="dark"></div>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit" id="loginSubmit">Masuk</button>
+        </form>
+
+        <div class="auth__divider">atau</div>
+        <div class="google-slot" id="googleLoginSlot"></div>
+
+        <p class="auth__foot">
+          Belum punya akun?
+          <button type="button" data-goto="register">Daftar di sini</button>
+        </p>
+      </section>
+
+      <!-- Panel: daftar -->
+      <section class="panel" id="panelRegister" hidden>
+        <h2>Buat akun</h2>
+        <p>Isi data berikut. Kode verifikasi dikirim ke email yang kamu masukkan.</p>
+
+        <div class="seg" role="tablist" aria-label="Pilih mode">
+          <button type="button" role="tab" aria-selected="false" data-mode="login">Masuk</button>
+          <button type="button" role="tab" aria-selected="true" data-mode="register">Daftar</button>
+        </div>
+
+        <form id="registerForm" novalidate>
+          <div class="field">
+            <label for="regName">Nama</label>
+            <input id="regName" name="name" type="text" autocomplete="name" required>
+            <span class="err" id="regNameErr"></span>
+          </div>
+          <div class="field">
+            <label for="regUser">Username</label>
+            <input id="regUser" name="username" type="text" autocomplete="username" required>
+            <span class="hint">3 sampai 24 karakter: huruf, angka, titik, garis.</span>
+            <span class="err" id="regUserErr"></span>
+          </div>
+          <div class="field">
+            <label for="regEmail">Email</label>
+            <input id="regEmail" name="email" type="email" autocomplete="email" required>
+            <span class="err" id="regEmailErr"></span>
+          </div>
+          <div class="field">
+            <label for="regPass">Password</label>
+            <input id="regPass" name="password" type="password" autocomplete="new-password" required>
+            <span class="hint">Minimal 8 karakter.</span>
+            <span class="err" id="regPassErr"></span>
+          </div>
+          <div class="field">
+            <label class="sr-only" for="regCaptcha">Verifikasi keamanan</label>
+            <div class="cf-turnstile" id="regCaptcha" data-theme="dark"></div>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit" id="registerSubmit">Daftar</button>
+        </form>
+
+        <div class="auth__divider">atau</div>
+        <div class="google-slot" id="googleRegisterSlot"></div>
+
+        <p class="auth__foot">
+          Sudah punya akun?
+          <button type="button" data-goto="login">Masuk di sini</button>
+        </p>
+      </section>
+
+      <!-- Panel: PIN perangkat baru -->
+      <section class="panel" id="panelPin" hidden>
+        <h2>PIN perangkat baru</h2>
+        <p id="pinLead">Perangkat ini belum dikenal. Masukkan PIN yang dikirim ke email akun kamu.</p>
+        <div class="dev-note" id="devPinNote" hidden></div>
+        <div class="pin-inputs" id="pinInputs"></div>
+        <button class="btn btn--primary btn--block" type="button" id="pinSubmit">Verifikasi PIN</button>
+        <div style="display:flex;gap:var(--sp-2);margin-top:var(--sp-3)">
+          <button class="btn btn--ghost btn--sm" type="button" id="pinResend" style="flex:1">Kirim ulang PIN</button>
+          <button class="btn btn--ghost btn--sm" type="button" id="pinBack" style="flex:1">Kembali</button>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<!-- Verifikasi email -->
+<div class="verify" id="verifyModal" role="dialog" aria-modal="true" aria-labelledby="verifyTitle">
+  <div class="verify__scrim"></div>
+  <div class="verify__panel">
+    <div class="verify__anim" aria-hidden="true">
+      <span class="verify__ring"></span>
+      <span class="verify__ring"></span>
+      <span class="verify__ring"></span>
+      <span class="verify__core" id="verifyCore"><i data-lucide="mail-check"></i></span>
+    </div>
+    <h2 id="verifyTitle">Cek email kamu</h2>
+    <p style="color:var(--muted);font-size:14px;margin-top:8px" id="verifyLead">
+      Kami kirim kode verifikasi 6 angka. Masukkan kodenya untuk mengaktifkan akun.
+    </p>
+    <div class="dev-note" id="devVerifyNote" hidden></div>
+    <div class="field" style="margin-top:var(--sp-5)">
+      <label for="verifyCode">Kode verifikasi</label>
+      <input id="verifyCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
+      <span class="err" id="verifyErr"></span>
+    </div>
+    <button class="btn btn--primary btn--block" type="button" id="verifySubmit">Verifikasi</button>
+    <p class="auth__foot" id="verifyFoot">Sudah verifikasi? <button type="button" id="verifyGoLogin">Masuk</button></p>
+  </div>
+</div>
+
+<div class="toast-stack" id="toasts" aria-live="polite"></div>
+
+<script src="assets/lib/lucide.min.js" defer></script>
+<script src="assets/js/ui.js" defer></script>
+<script src="assets/js/login.js" defer></script>
+</body>
+</html>

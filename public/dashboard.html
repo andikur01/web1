@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard GLM</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0a'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='15' font-weight='700' fill='%23c9a96e' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/dash.css">
+</head>
+<body>
+<div class="dash">
+  <aside class="side" id="side">
+    <div class="side__brand"><span id="sideBrand">GLM</span></div>
+    <nav class="side__nav" aria-label="Navigasi dashboard">
+      <p class="side__label">Pantau</p>
+      <button class="side__link" type="button" data-view="ringkasan" aria-current="true"><i data-lucide="layout-dashboard"></i>Ringkasan</button>
+      <button class="side__link" type="button" data-view="aktivitas" data-staff-only><i data-lucide="activity"></i>Log aktivitas</button>
+      <button class="side__link" type="button" data-view="outbox" data-staff-only><i data-lucide="mail"></i>Email keluar</button>
+
+      <p class="side__label">Kelola</p>
+      <button class="side__link" type="button" data-view="produk"><i data-lucide="laptop"></i>Produk</button>
+      <button class="side__link" type="button" data-view="ulasan"><i data-lucide="star"></i>Ulasan</button>
+      <button class="side__link" type="button" data-view="tim" data-staff-only><i data-lucide="users"></i>Tim &amp; akun</button>
+
+      <p class="side__label">Saya</p>
+      <button class="side__link" type="button" data-view="akun"><i data-lucide="user-cog"></i>Akun saya</button>
+      <button class="side__link" type="button" data-view="pengaturan" data-staff-only><i data-lucide="settings"></i>Pengaturan toko</button>
+    </nav>
+    <div class="side__foot">
+      <div class="who">
+        <span class="who__avatar" id="whoAvatar">G</span>
+        <span>
+          <b id="whoName">-</b>
+          <span id="whoRole">-</span>
+        </span>
+      </div>
+      <a class="btn btn--ghost btn--sm btn--block" href="/" target="_blank" rel="noopener">Lihat toko</a>
+      <button class="btn btn--ghost btn--sm btn--block" type="button" id="logoutBtn">Keluar</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn dash__burger" type="button" id="dashBurger" aria-label="Buka menu" aria-expanded="false"><i data-lucide="menu"></i></button>
+      <h1 id="viewTitle">Ringkasan</h1>
+      <span class="topbar__spacer"></span>
+      <span class="pill" id="mailModePill" title="Mode pengiriman email">Email: -</span>
+      <span class="pill pill--live" id="onlinePill"><i></i><span id="onlineText">0 online</span></span>
+      <button class="pill pill--imp" id="impersonatePill" type="button" hidden>Kembali ke akun sendiri</button>
+    </header>
+
+    <div class="views">
+      <!-- Ringkasan -->
+      <section class="view" id="view-ringkasan" aria-labelledby="viewTitle">
+        <div class="cards" id="statCards"></div>
+        <div class="split">
+          <div class="panel">
+            <div class="panel__head"><h2>Masuk per jam (24 jam terakhir)</h2></div>
+            <div class="panel__body">
+              <div class="chart" id="loginChart"></div>
+              <div class="chart__axis" id="loginAxis"></div>
+              <p style="color:var(--muted-2);font-size:12px;margin-top:12px" id="chartNote">Belum ada data masuk pada periode ini.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__head"><h2>Sedang online</h2><span class="grow"></span><span class="pill" id="presenceCount">0</span></div>
+            <div class="panel__body">
+              <div class="people" id="presenceList"></div>
+            </div>
+          </div>
+        </div>
+        <div class="split">
+          <div class="panel">
+            <div class="panel__head"><h2>Halaman yang paling dibuka (24 jam)</h2></div>
+            <div class="panel__body table-wrap" id="pagesTable"></div>
+          </div>
+          <div class="panel">
+            <div class="panel__head"><h2>Aktivitas terbaru</h2></div>
+            <div class="panel__body"><div class="log" id="recentLog"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Produk -->
+      <section class="view" id="view-produk" hidden>
+        <div class="panel">
+          <div class="panel__head">
+            <h2>Daftar produk</h2>
+            <span class="grow"></span>
+            <button class="btn btn--primary btn--sm" type="button" id="newProduct"><i data-lucide="plus"></i>Produk baru</button>
+          </div>
+          <div class="panel__body table-wrap">
+            <table>
+              <thead>
+                <tr><th>Foto</th><th>Nama</th><th>Merek</th><th>Kategori</th><th>Harga</th><th>Stok</th><th>Status</th><th></th></tr>
+              </thead>
+              <tbody id="productRows"></tbody>
+            </table>
+            <div class="empty" id="productRowsEmpty" hidden>
+              <h3>Belum ada produk</h3>
+              <p>Tambahkan produk pertama supaya muncul di halaman toko.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ulasan -->
+      <section class="view" id="view-ulasan" hidden>
+        <div class="panel">
+          <div class="panel__head">
+            <h2>Ulasan pelanggan</h2>
+            <span class="grow"></span>
+            <button class="btn btn--primary btn--sm" type="button" id="newReview"><i data-lucide="plus"></i>Ulasan baru</button>
+          </div>
+          <div class="panel__body table-wrap">
+            <p style="color:var(--muted);font-size:13px;margin-bottom:14px">
+              Ulasan ditampilkan di halaman toko. Isi hanya ulasan asli dari pelanggan.
+            </p>
+            <table>
+              <thead><tr><th>Nama</th><th>Kota</th><th>Nilai</th><th>Ulasan</th><th>Status</th><th></th></tr></thead>
+              <tbody id="reviewRows"></tbody>
+            </table>
+            <div class="empty" id="reviewRowsEmpty" hidden>
+              <h3>Belum ada ulasan</h3>
+              <p>Bagian ulasan di halaman toko menampilkan pesan kosong yang jujur sampai kamu menambah data.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tim -->
+      <section class="view" id="view-tim" hidden>
+        <div class="panel">
+          <div class="panel__head">
+            <h2>Akun tim</h2>
+            <span class="grow"></span>
+            <button class="btn btn--primary btn--sm" type="button" id="newUser"><i data-lucide="user-plus"></i>Akun baru</button>
+          </div>
+          <div class="panel__body table-wrap">
+            <p style="color:var(--muted);font-size:13px;margin-bottom:14px">
+              Akun yang dibuat di sini bisa masuk ke panel. Password dan PIN awal dikirim ke email akun tersebut.
+            </p>
+            <table>
+              <thead><tr><th>Nama</th><th>Username</th><th>Email</th><th>Peran</th><th>Perangkat</th><th>Masuk terakhir</th><th>Status</th><th></th></tr></thead>
+              <tbody id="userRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Aktivitas -->
+      <section class="view" id="view-aktivitas" hidden>
+        <div class="panel">
+          <div class="panel__head">
+            <h2>Log aktivitas</h2>
+            <span class="grow"></span>
+            <label class="sr-only" for="logFilter">Saring log</label>
+            <select id="logFilter" class="tag" style="padding:8px 12px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)">
+              <option value="all">Semua</option>
+              <option value="auth">Masuk dan keluar</option>
+              <option value="account">Perubahan akun</option>
+              <option value="product">Produk</option>
+              <option value="settings">Pengaturan</option>
+            </select>
+          </div>
+          <div class="panel__body"><div class="log" id="fullLog"></div></div>
+        </div>
+      </section>
+
+      <!-- Outbox -->
+      <section class="view" id="view-outbox" hidden>
+        <div class="panel">
+          <div class="panel__head"><h2>Email keluar</h2><span class="grow"></span><span class="pill" id="outboxMode">-</span></div>
+          <div class="panel__body">
+            <p style="color:var(--muted);font-size:13px;margin-bottom:14px" id="outboxNote"></p>
+            <div class="log" id="outboxList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Akun saya -->
+      <section class="view" id="view-akun" hidden>
+        <div class="split">
+          <div class="panel">
+            <div class="panel__head"><h2>Profil saya</h2></div>
+            <div class="panel__body">
+              <form id="profileForm" class="form-grid">
+                <div class="field field--full">
+                  <label for="pfName">Nama</label>
+                  <input id="pfName" type="text" required>
+                </div>
+                <div class="field">
+                  <label for="pfUser">Username</label>
+                  <input id="pfUser" type="text" required>
+                </div>
+                <div class="field">
+                  <label for="pfEmail">Email</label>
+                  <input id="pfEmail" type="email" required>
+                </div>
+                <div class="form-actions field--full">
+                  <button class="btn btn--primary btn--sm" type="submit">Simpan profil</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__head"><h2>Ganti PIN perangkat</h2></div>
+            <div class="panel__body">
+              <form id="pinForm">
+                <div class="field">
+                  <label for="pfPass">Password saat ini</label>
+                  <input id="pfPass" type="password" autocomplete="current-password">
+                  <span class="hint">Diperlukan sebagai konfirmasi.</span>
+                </div>
+                <div class="field">
+                  <label for="pfPin">PIN baru</label>
+                  <input id="pfPin" type="text" inputmode="numeric" pattern="\d{4,8}" maxlength="8">
+                  <span class="hint">4 sampai 8 angka.</span>
+                </div>
+                <button class="btn btn--primary btn--sm" type="submit">Simpan PIN</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel__head"><h2>Perangkat saya</h2></div>
+          <div class="panel__body table-wrap">
+            <p style="color:var(--muted);font-size:13px;margin-bottom:14px">
+              Perangkat yang sudah dikenal bisa masuk tanpa PIN. Cabut perangkat untuk memaksa verifikasi PIN lagi.
+            </p>
+            <table>
+              <thead><tr><th>Perangkat</th><th>Status</th><th>Pertama</th><th>Terakhir</th><th></th></tr></thead>
+              <tbody id="deviceRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pengaturan -->
+      <section class="view" id="view-pengaturan" hidden>
+        <form id="settingsForm">
+          <div class="panel">
+            <div class="panel__head"><h2>Identitas toko</h2></div>
+            <div class="panel__body form-grid">
+              <div class="field"><label for="st_logo_text">Teks logo</label><input id="st_logo_text" data-setting="logo_text"></div>
+              <div class="field"><label for="st_brand_sub">Keterangan di bawah logo</label><input id="st_brand_sub" data-setting="brand_sub"></div>
+              <div class="field field--full"><label for="st_logo_image">URL gambar logo</label><input id="st_logo_image" data-setting="logo_image" placeholder="https://... atau assets/img/logo.png"><span class="hint">Kosongkan untuk memakai teks logo.</span></div>
+              <div class="field"><label for="st_whatsapp_number">Nomor WhatsApp</label><input id="st_whatsapp_number" data-setting="whatsapp_number" placeholder="6281234567890"><span class="hint">Format internasional tanpa tanda plus.</span></div>
+              <div class="field"><label for="st_contact_address">Alamat toko</label><input id="st_contact_address" data-setting="contact_address"></div>
+              <div class="field field--full"><label for="st_maps_query">Kata kunci peta</label><input id="st_maps_query" data-setting="maps_query" placeholder="Nama toko atau alamat"></div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:var(--sp-6)">
+            <div class="panel__head"><h2>Pembuka dan hero</h2></div>
+            <div class="panel__body form-grid">
+              <div class="field"><label for="st_intro_text">Teks pembuka</label><input id="st_intro_text" data-setting="intro_text"></div>
+              <div class="field"><label for="st_intro_sub">Baris kedua pembuka</label><input id="st_intro_sub" data-setting="intro_sub"></div>
+              <div class="field field--full"><label for="st_intro_video_url">URL video intro</label><input id="st_intro_video_url" data-setting="intro_video_url" placeholder="https://...mp4 atau tautan YouTube"><span class="hint">Kosongkan bila tidak memakai video.</span></div>
+              <div class="field field--full"><label for="st_hero_label">Label hero</label><input id="st_hero_label" data-setting="hero_label"></div>
+              <div class="field"><label for="st_hero_title">Judul hero</label><input id="st_hero_title" data-setting="hero_title"></div>
+              <div class="field"><label for="st_hero_desc">Deskripsi hero</label><input id="st_hero_desc" data-setting="hero_desc"></div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:var(--sp-6)">
+            <div class="panel__head"><h2>Angka, promo, dan pengumuman</h2></div>
+            <div class="panel__body form-grid">
+              <div class="field"><label for="st_stat_customers">Jumlah pelanggan</label><input id="st_stat_customers" data-setting="stat_customers" inputmode="numeric" placeholder="0"><span class="hint">Isi angka asli. Biarkan 0 bila belum ada.</span></div>
+              <div class="field"><label for="st_stat_warranty">Teks jaminan</label><input id="st_stat_warranty" data-setting="stat_warranty"></div>
+              <div class="field"><label for="st_promo_title">Judul promo</label><input id="st_promo_title" data-setting="promo_title"></div>
+              <div class="field"><label for="st_promo_end">Promo berakhir</label><input id="st_promo_end" data-setting="promo_end" type="datetime-local"></div>
+              <div class="field field--full"><label for="st_promo_desc">Deskripsi promo</label><input id="st_promo_desc" data-setting="promo_desc"></div>
+              <div class="field field--full"><label for="st_announcement">Pengumuman di notifikasi</label><input id="st_announcement" data-setting="announcement"></div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:var(--sp-6)">
+            <div class="panel__head"><h2>Media sosial</h2></div>
+            <div class="panel__body form-grid">
+              <div class="field"><label for="st_social_instagram">Instagram</label><input id="st_social_instagram" data-setting="social_instagram" placeholder="https://instagram.com/..."></div>
+              <div class="field"><label for="st_social_tiktok">TikTok</label><input id="st_social_tiktok" data-setting="social_tiktok" placeholder="https://tiktok.com/@..."></div>
+              <div class="field field--full"><label for="st_social_youtube">YouTube</label><input id="st_social_youtube" data-setting="social_youtube" placeholder="https://youtube.com/@..."></div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn--primary" type="submit">Simpan pengaturan</button>
+            <button class="btn btn--ghost" type="reset">Batalkan perubahan</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: formulir produk -->
+<div class="sheet" id="productSheet" role="dialog" aria-modal="true" aria-labelledby="productSheetTitle">
+  <div class="sheet__scrim" data-close-sheet></div>
+  <div class="sheet__panel">
+    <div class="sheet__head">
+      <h2 id="productSheetTitle">Produk baru</h2>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" data-close-sheet aria-label="Tutup"><i data-lucide="x"></i></button>
+    </div>
+    <form id="productForm" class="form-grid">
+      <input type="hidden" id="pr_id">
+      <div class="field field--full"><label for="pr_name">Nama produk</label><input id="pr_name" required></div>
+      <div class="field"><label for="pr_brand">Merek</label><input id="pr_brand" required placeholder="ASUS, Apple, Lenovo"></div>
+      <div class="field">
+        <label for="pr_category">Kategori</label>
+        <select id="pr_category">
+          <option value="gaming">Gaming</option>
+          <option value="office">Kerja / Office</option>
+          <option value="desain">Desain</option>
+          <option value="ultrabook">Ultrabook</option>
+        </select>
+      </div>
+      <div class="field"><label for="pr_cpu">CPU</label><input id="pr_cpu"></div>
+      <div class="field"><label for="pr_gpu">GPU</label><input id="pr_gpu"></div>
+      <div class="field"><label for="pr_ram">RAM</label><input id="pr_ram" placeholder="16GB"></div>
+      <div class="field"><label for="pr_storage">Penyimpanan</label><input id="pr_storage" placeholder="512GB SSD"></div>
+      <div class="field"><label for="pr_screen">Layar</label><input id="pr_screen" placeholder="16 inci 165Hz"></div>
+      <div class="field"><label for="pr_price">Harga</label><input id="pr_price" type="number" min="0" step="1000" required></div>
+      <div class="field"><label for="pr_old_price">Harga sebelum diskon</label><input id="pr_old_price" type="number" min="0" step="1000"></div>
+      <div class="field"><label for="pr_stock">Stok</label><input id="pr_stock" type="number" min="0" step="1"></div>
+      <div class="field"><label for="pr_badge">Label kartu</label><input id="pr_badge" placeholder="Best Seller, Baru, Sisa 2"></div>
+      <div class="field"><label for="pr_sort_order">Urutan tampil</label><input id="pr_sort_order" type="number" step="1" placeholder="0"><span class="hint">Angka kecil tampil lebih dulu.</span></div>
+      <div class="field field--full"><label for="pr_image">URL foto</label><input id="pr_image" placeholder="assets/img/product-1.jpg"></div>
+      <div class="field field--full"><label for="pr_summary">Ringkasan singkat</label><textarea id="pr_summary"></textarea></div>
+      <div class="field field--full"><label for="pr_specs">Catatan tambahan</label><textarea id="pr_specs" placeholder="Garansi, bonus, kondisi unit"></textarea></div>
+      <div class="field field--full">
+        <label class="switch"><input type="checkbox" id="pr_active" checked>Tampilkan di halaman toko</label>
+      </div>
+      <div class="form-actions field--full">
+        <button class="btn btn--primary" type="submit">Simpan produk</button>
+        <button class="btn btn--ghost" type="button" data-close-sheet>Batal</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Sheet: formulir akun -->
+<div class="sheet" id="userSheet" role="dialog" aria-modal="true" aria-labelledby="userSheetTitle">
+  <div class="sheet__scrim" data-close-sheet></div>
+  <div class="sheet__panel">
+    <div class="sheet__head">
+      <h2 id="userSheetTitle">Akun baru</h2>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" data-close-sheet aria-label="Tutup"><i data-lucide="x"></i></button>
+    </div>
+    <form id="userForm" class="form-grid">
+      <input type="hidden" id="us_id">
+      <div class="field field--full"><label for="us_name">Nama</label><input id="us_name" required></div>
+      <div class="field"><label for="us_username">Username</label><input id="us_username" required></div>
+      <div class="field"><label for="us_email">Email</label><input id="us_email" type="email" required></div>
+      <div class="field" id="us_role_wrap"><label for="us_role">Peran</label>
+        <select id="us_role">
+          <option value="karyawan">Tim</option>
+          <option value="admin">Admin</option>
+          <option value="owner">Owner</option>
+        </select>
+      </div>
+      <div class="field"><label for="us_password">Password awal</label><input id="us_password" type="text" placeholder="Kosongkan untuk dibuat otomatis"></div>
+      <div class="field"><label for="us_pin">PIN awal</label><input id="us_pin" type="text" inputmode="numeric" maxlength="8" placeholder="Kosongkan untuk dibuat otomatis"></div>
+      <div class="field field--full">
+        <label class="switch"><input type="checkbox" id="us_active" checked>Akun aktif</label>
+      </div>
+      <div class="form-actions field--full">
+        <button class="btn btn--primary" type="submit">Simpan akun</button>
+        <button class="btn btn--ghost" type="button" data-close-sheet>Batal</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Sheet: formulir ulasan -->
+<div class="sheet" id="reviewSheet" role="dialog" aria-modal="true" aria-labelledby="reviewSheetTitle">
+  <div class="sheet__scrim" data-close-sheet></div>
+  <div class="sheet__panel">
+    <div class="sheet__head">
+      <h2 id="reviewSheetTitle">Ulasan baru</h2>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" data-close-sheet aria-label="Tutup"><i data-lucide="x"></i></button>
+    </div>
+    <form id="reviewForm" class="form-grid">
+      <input type="hidden" id="rv_id">
+      <div class="field"><label for="rv_name">Nama pelanggan</label><input id="rv_name" required></div>
+      <div class="field"><label for="rv_city">Kota</label><input id="rv_city"></div>
+      <div class="field"><label for="rv_rating">Nilai (1-5)</label><input id="rv_rating" type="number" min="1" max="5" value="5"></div>
+      <div class="field"><label for="rv_image">URL foto</label><input id="rv_image" placeholder="opsional"></div>
+      <div class="field field--full"><label for="rv_body">Isi ulasan</label><textarea id="rv_body" required></textarea></div>
+      <div class="field field--full"><label class="switch"><input type="checkbox" id="rv_active" checked>Tampilkan di halaman toko</label></div>
+      <div class="form-actions field--full">
+        <button class="btn btn--primary" type="submit">Simpan ulasan</button>
+        <button class="btn btn--ghost" type="button" data-close-sheet>Batal</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Sheet: impersonate -->
+<div class="sheet" id="impSheet" role="dialog" aria-modal="true" aria-labelledby="impTitle">
+  <div class="sheet__scrim" data-close-sheet></div>
+  <div class="sheet__panel" style="max-width:460px">
+    <div class="sheet__head">
+      <h2 id="impTitle">Masuk sebagai akun ini</h2>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" data-close-sheet aria-label="Tutup"><i data-lucide="x"></i></button>
+    </div>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:16px" id="impLead"></p>
+    <form id="impForm">
+      <div class="field">
+        <label for="imp_pin">PIN akun tersebut</label>
+        <input id="imp_pin" type="text" inputmode="numeric" maxlength="8" required>
+        <span class="hint">PIN ini dikirim ke email akun tersebut saat dibuat atau diubah.</span>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn--primary" type="submit">Masuk sebagai akun ini</button>
+        <button class="btn btn--ghost" type="button" id="impShowPin">Lihat PIN</button>
+        <button class="btn btn--ghost" type="button" data-close-sheet>Batal</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Sheet: lihat PIN akun -->
+<div class="sheet" id="pinSheet" role="dialog" aria-modal="true" aria-labelledby="pinSheetTitle">
+  <div class="sheet__scrim" data-close-sheet></div>
+  <div class="sheet__panel" style="max-width:460px">
+    <div class="sheet__head">
+      <h2 id="pinSheetTitle">PIN akun</h2>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" data-close-sheet aria-label="Tutup"><i data-lucide="x"></i></button>
+    </div>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:16px" id="pinLead"></p>
+    <div class="pin-reveal" id="pinReveal" hidden>
+      <span class="pin-reveal__value" id="pinValue">------</span>
+      <button class="btn btn--ghost btn--sm" type="button" id="pinCopy">Salin</button>
+    </div>
+    <p class="hint" id="pinNote" style="margin-top:12px"></p>
+    <div class="form-actions">
+      <button class="btn btn--ghost" type="button" data-close-sheet>Tutup</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toasts" aria-live="polite"></div>
+
+<script src="assets/lib/lucide.min.js" defer></script>
+<script src="assets/js/ui.js" defer></script>
+<script src="assets/js/dash.js" defer></script>
+</body>
+</html>

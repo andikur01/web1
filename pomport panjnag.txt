@@ -1,0 +1,204 @@
+buatkan saya webiste dengan prompoting di bawah .
+
+Prompt Website Toko Laptop "GLM"
+1. Kirim prompt ini ke AI mana
+AI	Link	Cocok untuk
+v0	https://v0.app	Langsung jadi website + preview (paling disarankan)
+Bolt	https://bolt.new	Website full + bisa diedit langsung
+Lovable	https://lovable.dev	Website + backend
+Claude	https://claude.ai	Dapat file HTML/CSS/JS
+ChatGPT	https://chatgpt.com	Dapat file HTML/CSS/JS
+Caranya: copy semua isi di bagian "2. PROMPT UTAMA" di bawah ini, paste ke salah satu AI di atas, lalu kirim.
+
+2. PROMPT UTAMA (copy dari sini sampai akhir bagian ini)
+Buatkan saya website toko laptop premium bernama "GLM" (GLM Laptop Store).
+Kesan yang saya mau: MAHAL, ELEGAN, MODERN, seperti website Apple, Razer, atau Nothing.
+Bahasa konten: Indonesia. Harus responsif (HP, tablet, desktop) dan rapi.
+
+=== GAYA VISUAL ===
+- Tema gelap mewah: background hitam pekat #0A0A0A, teks putih #F5F5F5,
+  teks abu #8A8A8A, aksen emas/champagne #C9A96E (dipakai sedikit saja untuk tombol & highlight).
+- Font: "Space Grotesk" untuk judul, "Inter" untuk teks (Google Fonts).
+- Banyak ruang kosong (whitespace), sudut membulat halus, garis tipis 1px warna putih 10%.
+- Efek tambahan: noise/grain overlay tipis di seluruh halaman, glassmorphism (blur) di navbar,
+  glow lembut berwarna di belakang gambar laptop.
+- Icon pakai Lucide Icons. Jangan pakai emoji.
+
+=== LIBRARY YANG WAJIB DIPAKAI (via CDN) ===
+- GSAP + ScrollTrigger + SplitText -> animasi scroll & teks
+  https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js
+  https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js
+  https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js
+- Lenis -> smooth scroll yang halus seperti website mahal
+  https://unpkg.com/lenis@1.3.4/dist/lenis.min.js
+  https://unpkg.com/lenis@1.3.4/dist/lenis.css
+- Typed.js -> efek teks mengetik
+  https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js
+- Swiper -> slider testimoni/produk
+  https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css
+  https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js
+- Vanilla Tilt -> efek kartu miring 3D saat di-hover
+  https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js
+- Lucide Icons
+  https://unpkg.com/lucide@latest
+
+=== 0. PRELOADER (layar pembuka) ===
+- Saat web pertama dibuka: layar hitam, tulisan "GLM" besar di tengah,
+  angka persen 0% -> 100% berjalan, lalu layar terbelah/naik ke atas (curtain reveal)
+  dan hero muncul.
+
+=== 1. NAVBAR ===
+- Fixed di atas, transparan + blur (glassmorphism).
+- Kiri: logo "GLM". Tengah: Beranda, Produk, Merek, Promo, Kontak.
+  Kanan: icon search, icon keranjang (ada badge angka), tombol "Belanja Sekarang".
+- Navbar otomatis sembunyi saat scroll ke bawah, muncul lagi saat scroll ke atas.
+
+=== 2. DYNAMIC ISLAND (notifikasi ala iPhone) ===
+- Pil hitam kecil melayang di tengah atas layar (di bawah navbar), seperti Dynamic Island iPhone.
+- Setiap 5-6 detik, pil ini MEMBESAR dengan animasi kenyal (spring) dan menampilkan notifikasi, contoh:
+  "Budi dari Jakarta baru membeli ASUS ROG Strix G16"
+  "Stok MacBook Air M3 tinggal 3 unit"
+  "Promo cicilan 0% hingga 12 bulan"
+  lengkap dengan icon/foto kecil, lalu mengecil kembali.
+- Bisa diklik untuk menutup.
+
+=== 3. HERO SECTION (FULL LAYAR 100vh) - PALING PENTING ===
+- Tinggi penuh 1 layar (100vh), konten rata tengah vertikal, rapi.
+- Layout 2 kolom:
+  KIRI:
+   - Label kecil: "GLM Laptop Store - Resmi & Bergaransi"
+   - Judul besar: "Laptop Impian Kamu," lalu baris berikutnya teks MENGETIK (Typed.js)
+     yang berganti nama merek: "ASUS ROG." -> "MacBook Pro." -> "Lenovo Legion." ->
+     "Acer Predator." -> "HP Omen." -> "MSI Titan." (mengetik, hapus, ketik lagi, looping)
+     dengan kursor berkedip warna emas.
+   - Deskripsi singkat 1-2 kalimat.
+   - 2 tombol: "Lihat Stok Ready" (emas, efek magnetic button: tombol ikut tertarik ke arah kursor)
+     dan "Konsultasi Gratis" (outline).
+   - Di bawahnya 3 angka statistik yang menghitung naik (count-up):
+     "5.000+ Pelanggan", "50+ Model", "100% Original".
+  KANAN:
+   - Gambar laptop besar yang BERGANTI-GANTI SINKRON dengan teks mengetik di kiri.
+     Saat teks kiri berubah jadi "MacBook Pro", gambar kanan berganti ke MacBook, dst.
+   - Transisi gambar: fade + slide + sedikit rotate & scale (pakai GSAP), halus.
+   - Laptop melayang naik-turun pelan (floating animation).
+   - Di belakang laptop ada glow/lingkaran cahaya yang warnanya berganti sesuai merek
+     (ROG merah, MacBook putih/silver, Legion biru, Predator cyan, Omen merah tua, MSI merah).
+   - Di bawah gambar: nama merek + harga mulai, contoh "ASUS ROG Strix G16 - Mulai Rp 21.999.000".
+   - Indikator titik/garis progress di bawah menunjukkan slide ke berapa.
+- Background hero: gradient halus + grid tipis + efek spotlight yang mengikuti kursor mouse.
+- Paling bawah tengah: indikator "Scroll" dengan animasi mouse/panah naik-turun.
+
+=== 4. MARQUEE MEREK ===
+- Strip logo merek berjalan terus (infinite marquee) dari kanan ke kiri:
+  ASUS, Apple, Lenovo, Acer, HP, MSI, Dell, Razer. Hover = berhenti & logo jadi terang.
+
+=== 5. STOK LAPTOP READY ===
+- Judul: "Stok Ready Hari Ini" dengan badge hijau berkedip "Live".
+- Filter tab: Semua, Gaming, Kerja/Office, Desain, Ultrabook (dengan animasi filter halus).
+- Grid kartu produk (4 kolom desktop, 2 tablet, 1 HP). Minimal 8 produk.
+- Setiap kartu berisi: foto laptop, badge ("Best Seller"/"Baru"/"Sisa 2"), nama, spesifikasi singkat
+  (CPU, RAM, SSD, GPU dengan icon), harga coret + harga promo, rating bintang,
+  tombol "Tambah ke Keranjang" dan icon hati (wishlist).
+- Kartu pakai Vanilla Tilt (miring 3D saat hover) + glow yang mengikuti kursor di dalam kartu.
+- Klik kartu -> muncul modal/quick view detail produk.
+
+=== 6. ANIMASI SAAT SCROLL KE BAWAH (WAJIB, pakai GSAP ScrollTrigger + Lenis) ===
+Terapkan efek-efek ini di section yang berbeda:
+a. Hero Parallax Exit: saat mulai scroll, konten hero mengecil, memudar, dan bergerak pelan
+   (parallax) sementara section berikutnya naik menutupinya.
+b. Text Reveal per kata (SplitText): judul section muncul kata per kata dari bawah,
+   dan paragraf berubah warna dari abu ke putih mengikuti scroll (scroll-scrubbed text).
+c. Stagger Reveal: kartu produk muncul satu per satu dari bawah dengan fade + blur hilang.
+d. Pinned Showcase "Laptop Unggulan": section di-PIN (diam), laptop di tengah berputar/zoom
+   mengikuti scroll, sementara keterangan spesifikasi muncul bergantian di kiri-kanan
+   (seperti halaman produk Apple).
+e. Horizontal Scroll: section "Kategori" bergeser ke samping saat user scroll ke bawah.
+f. Image Clip Reveal: gambar banner terbuka dari tengah (clip-path) saat masuk layar.
+g. Progress bar tipis warna emas di paling atas yang menunjukkan posisi scroll.
+
+=== 7. BENTO GRID "KENAPA PILIH GLM" ===
+- Layout bento grid (kotak berbagai ukuran) berisi: Garansi Resmi, Cicilan 0%,
+  Gratis Ongkir, Bisa Tukar Tambah, Konsultasi 24/7, Rakit & Upgrade.
+- Tiap kotak ada icon, hover = border glow emas.
+
+=== 8. PROMO / COUNTDOWN ===
+- Banner besar "Flash Sale" dengan countdown timer (hari, jam, menit, detik) yang berjalan.
+
+=== 9. TESTIMONI ===
+- Slider Swiper testimoni pelanggan (foto, nama, kota, bintang, ulasan), autoplay.
+
+=== 10. FOOTER ===
+- Teks raksasa "GLM" memenuhi lebar layar di bagian bawah.
+- Kolom: tentang, link, alamat toko + Google Maps, sosial media, form newsletter.
+- Tombol WhatsApp melayang di pojok kanan bawah (floating, ada animasi pulse).
+
+=== DETAIL PREMIUM TAMBAHAN ===
+- Custom cursor: titik kecil + lingkaran yang mengikuti mouse dengan delay,
+  membesar saat di atas tombol/produk (matikan di HP).
+- Semua tombol punya efek hover halus, transisi 300-500ms dengan easing yang lembut.
+- Gambar laptop pakai foto berkualitas tinggi (latar transparan/gelap).
+- Hormati "prefers-reduced-motion" (matikan animasi berat untuk yang tidak mau animasi).
+- Performa ringan: lazy load gambar, animasi pakai transform & opacity saja.
+- SEO: title "GLM - Toko Laptop Original & Bergaransi", meta description, HTML semantik.
+
+Pastikan semua bagian benar-benar jadi (bukan placeholder), rapi, dan terlihat seperti
+website brand premium internasional.
+3. Daftar nama fitur + link sumbernya
+Nama Fitur	Library	Link Dokumentasi
+Typewriter Effect (teks mengetik)	Typed.js	https://mattboldt.github.io/typed.js/
+Scroll Animation / ScrollTrigger	GSAP	https://gsap.com/docs/v3/Plugins/ScrollTrigger/
+Text Reveal per kata/huruf	GSAP SplitText	https://gsap.com/docs/v3/Plugins/SplitText/
+Smooth Scroll	Lenis	https://lenis.darkroom.engineering/
+3D Tilt Card Hover	Vanilla Tilt	https://micku7zu.github.io/vanilla-tilt.js/
+Slider / Carousel	Swiper	https://swiperjs.com/
+Animasi CSS siap pakai	Animate.css	https://animate.style/
+Scroll reveal sederhana (alternatif)	AOS	https://michalsnik.github.io/aos/
+Transisi antar halaman	Barba.js	https://barba.js.org/
+Icon	Lucide	https://lucide.dev/
+Font	Google Fonts	https://fonts.google.com/
+Laptop 3D (opsional, lebih mewah)	Spline	https://spline.design/
+Nama efek yang bisa kamu sebut ke AI kalau mau tambah/ubah: Dynamic Island Notification, Typewriter Effect, Hero Crossfade Slider, Floating Animation, Cursor Spotlight, Magnetic Button, Count-up Number, Infinite Marquee, Parallax Scroll, Pinned Section, Horizontal Scroll, Stagger Reveal, Clip-path Reveal, Scroll Progress Bar, Bento Grid, Glassmorphism, Grain/Noise Overlay, Custom Cursor, Preloader Curtain Reveal.
+
+4. Tips
+Kalau hasil pertama kurang pas, kirim lanjutan seperti: "Buat hero lebih rapi, gambar laptop lebih besar, dan transisi gantinya lebih halus."
+Kalau mau lebih mewah lagi: "Ganti gambar laptop di hero dengan model 3D dari Spline yang bisa diputar."
+Kalau pakai v0, minta: "Pakai Next.js, Tailwind, dan Motion (motion.dev) untuk animasi."
+
+
+.
+
+
+bro buatsiistmenya kek gini ada sisitem login diam2 bro klik logo atau bagain maana terserah saran kamu , 5x .
+terus kee buka halamn login terus di bawhany adatulisan daftar dan daftra wif google bro dan buat benran daftar.
+eh kamu bisa di sambungin tooldarirepo github ga sih bro kalau bisa kan banyak sekil yg membuat baguus dna aku mau kek ada animasi bultlucu ambil dari repo yg katnay itu ios atau bios gitu bios ai gitu di keliling ai full layaranya .
+
+dan buat sisitem kalau sudah login simpan perngkatya br jadi aku login pake hp ku dai ada lagungmasuak tapi kalau keditek perngakat lain suurh masauakn pin nya bro masuak cukup masuakn pin bro dna pas daftarlewat google brobuat animasi vervikasi bagus bro ambil dari rect bitc , dan nanti kririmke email ygdi masuak  ke web iini bro .
+
+terus bro pas masuak ada dashbord katlok pantau kataloknya agar ga perlu bolak balik logout bro .
+nah bantu aku mikir login admin isinya apa brocontoh .
+pengaturan : ada gantilogodan tulisan logo , dan ganti intro vidido /rubah tulisan introglm itu dan lain lain .
+pantau ,apakek terserah .
+oh ya admin buat akun admin hany bisa di buatakn oleh level admin .role admin bro .
+jadi admin ini rahsia juga bro khusu gua dan bawhanay admin ,ibaratnay kek karyawan bro tapi jangan ada plcrholder yg memebrit tahu kalau dia yg membuatakun karyawan dan gaada tulsian dia karyawan atau bukan cukuptulisan nama dia yg di daftra kan akun dna user name yg kitambilmasuakn ke fitru prngaturan dia ganti  email atau ganti pin pas masuak ya dan fitru karywan itu hampir mirip dengan admin hany ada beberapa yg gaada kau bantu mikir bro saran ku kek membuat akun  dan apa ya ,
+nah agr login karywan kek admin bro itu awal masuk sungguhin aja ygg pernah login dan grafik yg sedangoffline dan jumlah ygpernah login  dan dan bukan hanay yg pernah login tapi semau perngkat yg pernah klik link webisteini bro nanti kna saya hosting sednrir bro oky .
+dikusi dulu
+
+
+oh ya admin bisa login ke karywan manaaja bro  dan kesepileail yg di pakai da pin unutk login dia bro .
+
+hostin dll uruan saya kau bua file ny aja buat web nya saja . dan ul ui yang bagus  dan tadi yg kau icon laptop tadi sekrangg ganti dengan foto laptopbenran bro ambil dari luar terserah .
+
+oh ya karyawan bisa crud bro.
+mksd gua ni ya sebernya karyawna itu admin bro kenapa karena yg beli akun di suruh cs bro agar karywan mnegira dai admin ga kepantau bro dan ada laporan atau log aktivitas yg loggin gonta ganti apa dandi kelola akun ada karyawan sedang di halaman apa dan realtime bro karean maish kosong jaid beneran kosong bro ya .
+gi mana saran dikusi mu bro pendapatmu con kau pikir tmabhkan fitru lagi apa kek
+
+
+kan kalau pin unutk dia login admin benran bisa liat bro pinya bisa di rubah ya di pengaturan karywan masing2 dna awal pin mausak itu  di buatkan di kirim lewatemail bro oky .
+
+sekrang buatkan bro .
+dan buatsemua fitru bsia di  klik bro dan kalau bisa animasi yg gerka di atsitu ygkeke gelmbung buat animasi carter bulet serc di repo atau  apa bro pasangakn misoo atua bios lupa saya .
+
+dan beli nya gadi web ya di wa bro jadi kernjang dia menu semua list nama mereknya terus kalau tanda panhanya di klik nanti munucl deskpris lenglap lapotpnyabbor tanda arah panhanya kebawah .
+
+dan nanti ngirim ke wa nya itu id laptop dan merek laptop bro dan dekspri pentingny aja kek ram intl brp gitu .
+kan kalau dekspri lengkap pat gua it banyak bro maknay agr terluhatenek secukupny saja bro .

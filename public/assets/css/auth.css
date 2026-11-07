@@ -1,0 +1,355 @@
+/* Halaman masuk dan daftar panel internal. */
+
+.auth {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+}
+
+.auth__side {
+  position: relative;
+  padding: var(--sp-8) var(--sp-7);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  background: radial-gradient(700px circle at 20% 20%, rgba(201, 169, 110, 0.08), transparent 60%), var(--base);
+}
+
+.auth__brand {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.auth__side h1 {
+  font-size: clamp(32px, 4.4vw, 54px);
+  max-width: 18ch;
+}
+
+.auth__side p {
+  color: var(--muted);
+  max-width: 44ch;
+  margin-top: var(--sp-5);
+}
+
+.auth__points {
+  margin-top: var(--sp-7);
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.auth__points li {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.auth__points svg {
+  width: 17px;
+  height: 17px;
+  color: var(--accent);
+  flex: none;
+  margin-top: 3px;
+}
+
+.auth__main {
+  display: grid;
+  place-items: center;
+  padding: var(--sp-7) var(--sp-5);
+}
+
+.auth__card {
+  width: min(430px, 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  padding: var(--sp-7);
+}
+
+.auth__card h2 {
+  font-size: 26px;
+}
+
+.auth__card > p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: var(--sp-2);
+}
+
+.seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  margin-block: var(--sp-5);
+}
+
+.seg button {
+  border: 0;
+  background: transparent;
+  border-radius: var(--r-pill);
+  padding: 9px;
+  font-size: 14px;
+  color: var(--muted);
+  transition: all var(--dur-2) var(--ease);
+}
+
+.seg button[aria-selected='true'] {
+  background: var(--accent);
+  color: #14100a;
+  font-weight: 600;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: var(--sp-4);
+}
+
+.field label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.field input {
+  padding: 12px 15px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--base);
+  transition: border-color var(--dur-2) var(--ease);
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--accent-line);
+}
+
+.field .hint {
+  font-size: 12px;
+  color: var(--muted-2);
+}
+
+.field .err {
+  font-size: 12px;
+  color: var(--danger);
+  min-height: 14px;
+}
+
+.auth__divider {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-block: var(--sp-5);
+  color: var(--muted-2);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.auth__divider::before,
+.auth__divider::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: var(--line);
+}
+
+.google-slot {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+}
+
+.google-slot .note {
+  font-size: 12px;
+  color: var(--muted-2);
+  text-align: center;
+}
+
+.auth__foot {
+  margin-top: var(--sp-5);
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.auth__foot button {
+  background: none;
+  border: 0;
+  color: var(--accent);
+  font-weight: 600;
+  padding: 0;
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+/* Langkah PIN */
+.pin-inputs {
+  display: flex;
+  gap: var(--sp-2);
+  justify-content: space-between;
+  margin-block: var(--sp-5);
+}
+
+.pin-inputs input {
+  width: 100%;
+  aspect-ratio: 1 / 1.2;
+  text-align: center;
+  font-family: var(--font-head);
+  font-size: 22px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--base);
+}
+
+.pin-inputs input:focus {
+  outline: none;
+  border-color: var(--accent-line);
+}
+
+.dev-note {
+  border: 1px dashed var(--accent-line);
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--accent);
+  margin-bottom: var(--sp-4);
+}
+
+/* Verifikasi email */
+.verify {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  place-items: center;
+  padding: var(--sp-5);
+}
+
+.verify.is-open {
+  display: grid;
+}
+
+.verify__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+}
+
+.verify__panel {
+  position: relative;
+  width: min(420px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: var(--sp-7);
+  text-align: center;
+}
+
+.verify__anim {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto var(--sp-5);
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.verify__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--accent-line);
+  animation: ringout 2.4s var(--ease-soft) infinite;
+}
+
+.verify__ring:nth-child(2) {
+  animation-delay: 0.6s;
+}
+
+.verify__ring:nth-child(3) {
+  animation-delay: 1.2s;
+}
+
+@keyframes ringout {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 0;
+  }
+}
+
+.verify__core {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  position: relative;
+  z-index: 1;
+}
+
+.verify__core svg {
+  width: 26px;
+  height: 26px;
+}
+
+.verify.is-done .verify__ring {
+  animation: none;
+  opacity: 0;
+}
+
+.verify.is-done .verify__core {
+  background: rgba(63, 185, 80, 0.16);
+  border-color: rgba(63, 185, 80, 0.5);
+  color: var(--live);
+}
+
+.check-path {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: draw 0.7s var(--ease) forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .auth {
+    grid-template-columns: 1fr;
+  }
+  .auth__side {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: var(--sp-7) var(--sp-5);
+    gap: var(--sp-5);
+  }
+  .auth__side h1 {
+    font-size: 30px;
+  }
+  .auth__points {
+    display: none;
+  }
+}
