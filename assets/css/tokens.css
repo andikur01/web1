@@ -104,6 +104,8 @@ button {
   font: inherit;
   color: inherit;
   cursor: pointer;
+  background: none;
+  border: 0;
 }
 
 input,

@@ -42,9 +42,13 @@
   function initGoogle() {
     const slots = [el('googleLoginSlot'), el('googleRegisterSlot')];
     if (!config.googleEnabled) {
+      const staticMode = G.isStatic && G.isStatic();
+      const note = staticMode
+        ? 'Masuk dengan Google tidak tersedia di mode demo (GitHub Pages).'
+        : 'Masuk dengan Google belum aktif. Hubungi pemilik toko.';
       for (const slot of slots) {
         if (!slot) continue;
-        slot.innerHTML = '<p class="note">Masuk dengan Google belum aktif. Hubungi pemilik toko.</p>';
+        slot.innerHTML = '<p class="note">' + note + '</p>';
       }
       return;
     }
@@ -380,7 +384,12 @@
       '<b>Mode demo (GitHub Pages)</b><p>Login dan panel internal butuh server. ' +
       'Jalankan versi lengkapnya dengan <code>npm start</code>, lalu buka <code>/masuk</code>.</p>';
     card.prepend(box);
-    document.querySelectorAll('form, #pinSubmit, #verifySubmit').forEach((n) => n.setAttribute('disabled', 'disabled'));
+    /* Nonaktifkan kontrol yang benar-benar ada. Atribut disabled pada <form>
+       tidak berefek, jadi form tetap bisa disubmit dan memicu 404. */
+    document.querySelectorAll('.auth__card input, .auth__card select, .auth__card button').forEach((n) => {
+      n.disabled = true;
+    });
+    document.querySelectorAll('form').forEach((f) => f.addEventListener('submit', (e) => e.preventDefault()));
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
