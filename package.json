@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node --experimental-sqlite server/server.js",
     "dev": "node --watch --experimental-sqlite server/server.js",
-    "reset-db": "node --experimental-sqlite server/reset-db.js"
+    "reset-db": "node --experimental-sqlite server/reset-db.js",
+    "build:static": "node --experimental-sqlite server/build-static.mjs"
   },
   "dependencies": {
     "express": "^4.21.2",

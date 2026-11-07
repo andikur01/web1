@@ -7,7 +7,8 @@
   let first = 0;
 
   function go() {
-    window.location.href = '/masuk';
+    if (window.GLM && window.GLM.nav) window.GLM.nav('/masuk');
+    else window.location.href = '/masuk';
   }
 
   function arm(node) {

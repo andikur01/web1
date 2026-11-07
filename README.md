@@ -104,15 +104,38 @@ Lihat `AGENTS.md` untuk peta file, arsitektur, dan konvensi. Arah desain ada di
 ## Data
 
 - Database: SQLite di `data/glm.db` (dibuat otomatis, tidak masuk git).
-- Foto produk: file lokal di `public/assets/img/`.
+- Foto produk: file lokal di `assets/img/`.
 - Reset data: `npm run reset-db` lalu `npm start`.
 
 ## Hosting
 
-Aplikasi ini butuh Node.js (bukan hosting statis seperti GitHub Pages) karena ada
-API, database, dan login. Tiga cara paling gampang:
+Ada dua mode, dan keduanya jalan dari repo yang sama:
 
-### 1. Docker (VPS / lokal)
+### A. GitHub Pages (statis, gratis)
+
+Halaman sudah di root repo (`index.html`, `masuk.html`, `dashboard/`), jadi:
+
+1. Repo -> **Settings -> Pages**.
+2. **Source**: `Deploy from a branch`. **Branch**: `main`, folder **`/ (root)`**. Save.
+3. Tunggu 1-2 menit, buka `https://<user>.github.io/<repo>/`.
+
+Yang jalan di Pages: storefront penuh (hero, produk, merek, ulasan, keranjang) pakai
+snapshot data di `assets/js/env.js`. Yang **tidak** jalan: login, panel internal, dan
+checkout WhatsApp, karena butuh server. Halaman `masuk.html` / `dashboard/` tetap bisa
+dibuka tapi menampilkan pemberitahuan "Mode demo".
+
+Perbarui snapshot data setelah mengubah produk:
+
+```bash
+npm run build:static    # menulis ulang assets/js/env.js
+git add assets/js/env.js && git commit -m "perbarui data demo" && git push
+```
+
+### B. Server Node (fitur lengkap)
+
+Butuh Node.js karena ada API, database SQLite, login, dan realtime. Tiga cara:
+
+#### 1. Docker (VPS / lokal)
 
 ```bash
 docker compose up -d --build     # buka http://localhost:12000
@@ -136,7 +159,7 @@ NODE_ENV=production PORT=8080 npm start
 
 Balik di belakang reverse proxy (Caddy/Nginx) untuk HTTPS.
 
-> Catatan: GitHub Pages **tidak bisa** menjalankan backend. Kalau tetap ingin demo
-> tampilan di GitHub Pages, halaman akan tampil, tetapi login, produk, dan checkout
-> WhatsApp tidak berfungsi karena API tidak jalan.
+> Catatan: di mode server, buka `/` untuk toko dan `/masuk` untuk panel internal
+> (atau klik logo 5x cepat). Di mode Pages, route itu menjadi `masuk.html` dan
+> `dashboard/`.
 

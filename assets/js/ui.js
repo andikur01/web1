@@ -18,26 +18,47 @@ window.GLM = window.GLM || {};
     return 'Rp ' + num.toLocaleString('id-ID');
   };
 
+  /* Mode statis (GitHub Pages): kalau tidak ada backend, pakai snapshot demo. */
+  G.isStatic = function () {
+    if (typeof window.GLM_DEMO === 'undefined') return false;
+    if (window.GLM && window.GLM.base && window.GLM.base !== '/') return true;
+    return location.protocol === 'file:' || /\.github\.io$/.test(location.hostname);
+  };
+
+  G.demoData = function (url) {
+    const demo = window.GLM_DEMO;
+    if (!demo) return null;
+    const key = String(url).split('?')[0];
+    return Object.prototype.hasOwnProperty.call(demo, key) ? demo[key] : null;
+  };
+
   G.api = async function (url, options) {
     const opt = Object.assign({ headers: {} }, options || {});
     if (opt.body && typeof opt.body !== 'string') {
       opt.headers['Content-Type'] = 'application/json';
       opt.body = JSON.stringify(opt.body);
     }
-    const res = await fetch(url, opt);
-    let data = null;
     try {
-      data = await res.json();
-    } catch {
-      data = null;
-    }
-    if (!res.ok) {
-      const err = new Error((data && data.error) || 'Permintaan gagal (' + res.status + ')');
-      err.status = res.status;
-      err.data = data;
+      const res = await fetch(url, opt);
+      let data = null;
+      try {
+        data = await res.json();
+      } catch {
+        data = null;
+      }
+      if (!res.ok) {
+        const err = new Error((data && data.error) || 'Permintaan gagal (' + res.status + ')');
+        err.status = res.status;
+        err.data = data;
+        throw err;
+      }
+      return data;
+    } catch (err) {
+      const offline = !err || err.status === undefined || err.status === 404 || err.status >= 500;
+      const demo = offline ? G.demoData(url) : null;
+      if (demo) return demo;
       throw err;
     }
-    return data;
   };
 
   G.toast = function (message, kind) {

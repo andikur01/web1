@@ -80,7 +80,7 @@
       return await G.api(url, options);
     } catch (err) {
       if (err.status === 401) {
-        window.location.href = '/masuk';
+        if (window.GLM && window.GLM.nav) window.GLM.nav('/masuk'); else window.location.href = '/masuk';
         return null;
       }
       G.toast(err.message, 'error');
@@ -888,7 +888,7 @@
 
     el('logoutBtn')?.addEventListener('click', async () => {
       await G.api('/api/auth/logout', { method: 'POST' });
-      window.location.href = '/masuk';
+      if (window.GLM && window.GLM.nav) window.GLM.nav('/masuk'); else window.location.href = '/masuk';
     });
 
     el('impersonatePill')?.addEventListener('click', async () => {
@@ -904,6 +904,7 @@
   /* ----------------------------------------------------------------- boot */
 
   async function boot() {
+    if (G.isStatic && G.isStatic()) return showStaticNotice();
     const me = await api('/api/auth/me');
     if (!me) return;
     state.me = me;
@@ -923,6 +924,20 @@
   function init() {
     initForms();
     boot().catch(() => {});
+  }
+
+  /* Di GitHub Pages tidak ada backend: tampilkan pemberitahuan. */
+  function showStaticNotice() {
+    const main = document.querySelector('.main');
+    if (!main) return;
+    document.querySelectorAll('.view').forEach((n) => (n.hidden = true));
+    const box = document.createElement('div');
+    box.className = 'static-note';
+    box.setAttribute('role', 'status');
+    box.innerHTML =
+      '<b>Mode demo (GitHub Pages)</b><p>Panel internal butuh server (login, database, realtime). ' +
+      'Jalankan versi lengkapnya dengan <code>npm start</code>, lalu buka <code>/masuk</code> dan klik logo 5x.</p>';
+    main.prepend(box);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

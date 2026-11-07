@@ -1184,6 +1184,10 @@
         G.toast('Keranjang masih kosong', 'error');
         return;
       }
+      if (G.isStatic && G.isStatic()) {
+        G.toast('Mode demo: checkout WhatsApp aktif di versi server (npm start).', 'error');
+        return;
+      }
       openWa(buildWaOrder());
     });
     el('waFloat')?.addEventListener('click', () => openWa('Halo GLM, saya mau tanya stok laptop.'));

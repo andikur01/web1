@@ -77,7 +77,7 @@
         body: { credential: response.credential, deviceId: G.deviceId(), deviceLabel: G.deviceLabel() }
       });
       if (data.ok) {
-        window.location.href = '/dashboard';
+        if (window.GLM && window.GLM.nav) window.GLM.nav('/dashboard'); else window.location.href = '/dashboard';
         return;
       }
       G.toast('Masuk dengan Google gagal', 'error');
@@ -124,7 +124,7 @@
         }
       });
       if (data.ok) {
-        window.location.href = '/dashboard';
+        if (window.GLM && window.GLM.nav) window.GLM.nav('/dashboard'); else window.location.href = '/dashboard';
         return;
       }
       if (data.needPin) {
@@ -203,7 +203,7 @@
         body: { challengeId, pin, deviceId: G.deviceId(), deviceLabel: G.deviceLabel() }
       });
       if (data.ok) {
-        window.location.href = '/dashboard';
+        if (window.GLM && window.GLM.nav) window.GLM.nav('/dashboard'); else window.location.href = '/dashboard';
         return;
       }
     } catch (err) {
@@ -306,7 +306,10 @@
         el('verifyCore').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="check-path" d="M20 6 9 17l-5-5"/></svg>';
         setText('verifyTitle', 'Email terverifikasi');
         setText('verifyLead', 'Akun aktif. Kamu akan diarahkan ke dashboard.');
-        setTimeout(() => (window.location.href = '/dashboard'), 1400);
+        setTimeout(() => {
+          if (window.GLM && window.GLM.nav) window.GLM.nav('/dashboard');
+          else window.location.href = '/dashboard';
+        }, 1400);
       }
     } catch (err) {
       setError('verifyErr', err.message);
@@ -330,7 +333,7 @@
     try {
       const me = await G.api('/api/auth/me');
       if (me?.user) {
-        window.location.href = '/dashboard';
+        if (window.GLM && window.GLM.nav) window.GLM.nav('/dashboard'); else window.location.href = '/dashboard';
         return;
       }
     } catch {
@@ -361,6 +364,23 @@
     el('verifyCode')?.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') submitVerify();
     });
+
+    showStaticNotice();
+  }
+
+  /* Di GitHub Pages tidak ada backend: beri tahu pengunjung dengan jelas. */
+  function showStaticNotice() {
+    if (!G.isStatic || !G.isStatic()) return;
+    const card = document.querySelector('.auth__card');
+    if (!card) return;
+    const box = document.createElement('div');
+    box.className = 'static-note';
+    box.setAttribute('role', 'status');
+    box.innerHTML =
+      '<b>Mode demo (GitHub Pages)</b><p>Login dan panel internal butuh server. ' +
+      'Jalankan versi lengkapnya dengan <code>npm start</code>, lalu buka <code>/masuk</code>.</p>';
+    card.prepend(box);
+    document.querySelectorAll('form, #pinSubmit, #verifySubmit').forEach((n) => n.setAttribute('disabled', 'disabled'));
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

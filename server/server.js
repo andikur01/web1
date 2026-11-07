@@ -8,7 +8,8 @@ import { sendMail, mailerMode } from './mailer.js';
 import { addClient, removeClient, setPage, broadcast, broadcastPresence, recentActivity, onlineSummary } from './realtime.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PUBLIC_DIR = path.join(__dirname, '..', 'public');
+const ROOT_DIR = path.join(__dirname, '..');
+const PUBLIC_DIR = ROOT_DIR;
 const PORT = Number(process.env.PORT || 12000);
 
 migrate();
@@ -889,10 +890,19 @@ app.post('/api/stop-impersonate', requireAuth, (req, res) => {
 
 /* ------------------------------------------------------------- pages/static */
 
-app.get('/masuk', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'login.html')));
-app.get('/dashboard', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'dashboard.html')));
+const DENY = ['/server', '/data', '/node_modules', '/package.json', '/package-lock.json', '/.git'];
 
-app.use(express.static(PUBLIC_DIR, { extensions: ['html'] }));
+app.get('/masuk', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'masuk.html')));
+app.get('/dashboard', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'dashboard', 'index.html')));
+
+/* Kunci folder sensitif sebelum file statis disajikan. */
+app.use((req, res, next) => {
+  const blocked = DENY.some((p) => req.path === p || req.path.startsWith(p + '/'));
+  if (blocked) return res.status(404).json({ error: 'Tidak ditemukan.' });
+  next();
+});
+
+app.use(express.static(PUBLIC_DIR, { extensions: ['html'], index: ['index.html'] }));
 
 app.use((req, res) => {
   if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'Endpoint tidak ditemukan.' });

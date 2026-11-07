@@ -2,6 +2,19 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<script>
+/* Hitung base path + pasang <base> supaya aset relatif tetap benar
+   di server Node ("/") maupun di GitHub Pages ("/nama-repo/"). */
+(function () {
+  var segs = location.pathname.split("/").filter(Boolean);
+  var pages = /\.github\.io$/.test(location.hostname);
+  var first = segs.length && segs[0].indexOf(".") === -1 ? segs[0] : "";
+  var base = location.protocol === "file:" ? "" : pages && first ? "/" + first + "/" : "/";
+  window.GLM_BASE = base;
+  document.write('<base href="' + base + '">');
+  document.write('<script src="' + base + 'assets/js/base.js"><\/script>');
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Masuk Panel GLM</title>
 <meta name="robots" content="noindex, nofollow">
@@ -16,7 +29,7 @@
 <body>
 <div class="auth">
   <aside class="auth__side">
-    <a class="auth__brand" href="/"><span id="brandText">GLM</span> <span class="logo__sub" id="brandSub">Laptop Store</span></a>
+    <a class="auth__brand" href="./"><span id="brandText">GLM</span> <span class="logo__sub" id="brandSub">Laptop Store</span></a>
     <div>
       <h1>Panel internal GLM</h1>
       <p>Kelola stok, akun tim, dan pengaturan toko dari satu tempat. Perangkat yang sudah dikenal tidak perlu PIN lagi.</p>

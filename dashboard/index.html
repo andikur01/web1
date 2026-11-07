@@ -2,6 +2,19 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<script>
+/* Hitung base path + pasang <base> supaya aset relatif tetap benar
+   di server Node ("/") maupun di GitHub Pages ("/nama-repo/"). */
+(function () {
+  var segs = location.pathname.split("/").filter(Boolean);
+  var pages = /\.github\.io$/.test(location.hostname);
+  var first = segs.length && segs[0].indexOf(".") === -1 ? segs[0] : "";
+  var base = location.protocol === "file:" ? "" : pages && first ? "/" + first + "/" : "/";
+  window.GLM_BASE = base;
+  document.write('<base href="' + base + '">');
+  document.write('<script src="' + base + 'assets/js/base.js"><\/script>');
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dashboard GLM</title>
 <meta name="robots" content="noindex, nofollow">
@@ -39,7 +52,7 @@
           <span id="whoRole">-</span>
         </span>
       </div>
-      <a class="btn btn--ghost btn--sm btn--block" href="/" target="_blank" rel="noopener">Lihat toko</a>
+      <a class="btn btn--ghost btn--sm btn--block" href="./" target="_blank" rel="noopener">Lihat toko</a>
       <button class="btn btn--ghost btn--sm btn--block" type="button" id="logoutBtn">Keluar</button>
     </div>
   </aside>

@@ -1866,3 +1866,18 @@ body.is-locked {
     grid-template-columns: 1fr;
   }
 }
+
+/* Pemberitahuan mode demo (GitHub Pages tanpa backend). */
+.static-note {
+  margin: 0 0 20px;
+  padding: 16px 18px;
+  border: 1px solid rgba(201, 169, 110, 0.45);
+  border-radius: 14px;
+  background: rgba(201, 169, 110, 0.08);
+  color: var(--ink, #f2f0ec);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.static-note b { display: block; margin-bottom: 4px; color: #c9a96e; letter-spacing: 0.02em; }
+.static-note p { margin: 0; opacity: 0.85; }
+.static-note code { background: rgba(255, 255, 255, 0.08); padding: 1px 6px; border-radius: 6px; font-size: 12.5px; }
