@@ -106,3 +106,37 @@ Lihat `AGENTS.md` untuk peta file, arsitektur, dan konvensi. Arah desain ada di
 - Database: SQLite di `data/glm.db` (dibuat otomatis, tidak masuk git).
 - Foto produk: file lokal di `public/assets/img/`.
 - Reset data: `npm run reset-db` lalu `npm start`.
+
+## Hosting
+
+Aplikasi ini butuh Node.js (bukan hosting statis seperti GitHub Pages) karena ada
+API, database, dan login. Tiga cara paling gampang:
+
+### 1. Docker (VPS / lokal)
+
+```bash
+docker compose up -d --build     # buka http://localhost:12000
+```
+
+Set `GLM_OWNER_PASSWORD` dan `GLM_OWNER_PIN` di `docker-compose.yml` dulu.
+
+### 2. Render / Railway (gratis buat mulai)
+
+- Hubungkan repo GitHub ini.
+- Build: `npm ci`  -  Start: `npm start`.
+- Set env `NODE_ENV=production`, `PORT` (biasanya diisi otomatis), dan kredensial owner.
+- Tambahkan volume disk di `/app/data` supaya database tidak hilang saat redeploy.
+
+### 3. VPS biasa
+
+```bash
+npm ci --omit=dev
+NODE_ENV=production PORT=8080 npm start
+```
+
+Balik di belakang reverse proxy (Caddy/Nginx) untuk HTTPS.
+
+> Catatan: GitHub Pages **tidak bisa** menjalankan backend. Kalau tetap ingin demo
+> tampilan di GitHub Pages, halaman akan tampil, tetapi login, produk, dan checkout
+> WhatsApp tidak berfungsi karena API tidak jalan.
+

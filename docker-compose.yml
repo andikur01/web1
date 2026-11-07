@@ -1,0 +1,17 @@
+services:
+  glm:
+    build: .
+    ports:
+      - "12000:8080"
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - GLM_OWNER_EMAIL=owner@glm.local
+      - GLM_OWNER_PASSWORD=ganti-password-ini
+      - GLM_OWNER_PIN=246810
+    volumes:
+      - glm-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  glm-data:
