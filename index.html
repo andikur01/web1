@@ -1,432 +1,81 @@
-<!doctype html>
-<html lang="id" class="no-js">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GLM - Toko Laptop Original &amp; Bergaransi</title>
-<meta name="description" content="GLM Laptop Store: jual laptop gaming, kerja, desain, dan ultrabook original bergaransi. Cek stok ready, konsultasi gratis, pesan langsung lewat WhatsApp.">
-<meta name="theme-color" content="#0a0a0a">
-<meta property="og:title" content="GLM - Toko Laptop Original &amp; Bergaransi">
-<meta property="og:description" content="Stok unit asli, garansi resmi, konsultasi sebelum beli.">
-<meta property="og:type" content="website">
-<script>
-/* Hitung base path: root "/" di server Node, "/nama-repo/" di GitHub Pages. */
-(function () {
-  var segs = location.pathname.split('/').filter(Boolean);
-  var pages = /\.github\.io$/.test(location.hostname);
-  var first = segs.length && segs[0].indexOf('.') === -1 ? segs[0] : '';
-  var base = location.protocol === 'file:' ? '' : pages && first ? '/' + first + '/' : '/';
-  window.GLM_BASE = base;
-  document.write('<script src="' + base + 'assets/js/base.js"><\/script>');
-})();
-</script>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0a'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='15' font-weight='700' fill='%23c9a96e' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E">
-<link rel="preload" href="assets/fonts/Inter-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/SpaceGrotesk-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="assets/lib/swiper-bundle.min.css">
-<link rel="stylesheet" href="assets/lib/lenis.css">
-<link rel="stylesheet" href="assets/css/tokens.css">
-<link rel="stylesheet" href="assets/css/site.css">
-<script>document.documentElement.classList.remove('no-js');</script>
-</head>
-<body>
-<a class="skip-link" href="#main">Lewati ke konten utama</a>
-
-<!-- Preloader -->
-<div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="Memuat halaman">
-  <div class="preloader__inner">
-    <div class="preloader__video" id="preloaderVideo" hidden></div>
-    <p class="preloader__word" id="preloaderWord">GLM</p>
-    <p class="preloader__sub" id="preloaderSub">Resmi &amp; Bergaransi</p>
-    <div class="preloader__bar" aria-hidden="true"><span id="preloaderBar"></span></div>
-    <p class="preloader__pct" id="preloaderPct">0%</p>
-  </div>
-</div>
-
-<div class="progress" id="progress" role="presentation"></div>
-<div class="grain" aria-hidden="true"></div>
-<canvas class="bubbles" id="bubbles" aria-hidden="true"></canvas>
-<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
-<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-
-<!-- Navbar -->
-<header class="nav" id="nav">
-  <div class="wrap nav__inner">
-    <button class="logo" id="logo" type="button" aria-label="GLM Laptop Store, beranda">
-      <img id="logoImage" src="" alt="" hidden>
-      <span id="logoText">GLM</span>
-      <span class="logo__sub" id="logoSub">Laptop Store</span>
-    </button>
-
-    <nav class="nav__links" aria-label="Navigasi utama">
-      <a href="#beranda">Beranda</a>
-      <a href="#produk">Produk</a>
-      <a href="#merek">Merek</a>
-      <a href="#promo">Promo</a>
-      <a href="#kontak">Kontak</a>
-    </nav>
-
-    <div class="nav__actions">
-      <button class="icon-btn" id="searchBtn" type="button" aria-label="Cari produk">
-        <i data-lucide="search"></i>
-      </button>
-      <button class="icon-btn" id="cartBtn" type="button" aria-label="Buka keranjang">
-        <i data-lucide="shopping-bag"></i>
-        <span class="badge" id="cartBadge" hidden>0</span>
-      </button>
-      <a class="btn btn--primary btn--sm" href="#produk">Belanja Sekarang</a>
-      <button class="icon-btn nav__burger" id="burger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="drawer">
-        <i data-lucide="menu"></i>
-      </button>
-    </div>
-  </div>
-</header>
-
-<nav class="nav__drawer" id="drawer" aria-label="Navigasi seluler">
-  <a href="#beranda">Beranda</a>
-  <a href="#produk">Produk</a>
-  <a href="#merek">Merek</a>
-  <a href="#promo">Promo</a>
-  <a href="#kontak">Kontak</a>
-</nav>
-
-<!-- Dynamic Island -->
-<button class="island" id="island" type="button" aria-live="polite" aria-label="Notifikasi toko">
-  <span class="island__dot" aria-hidden="true"></span>
-  <span class="island__content">
-    <span class="island__icon" aria-hidden="true"><i data-lucide="bell"></i></span>
-    <span class="island__text">
-      <b id="islandTitle">Selamat datang di GLM</b>
-      <span id="islandBody">Stok unit dan promo diperbarui setiap hari.</span>
-    </span>
-  </span>
-</button>
-
-<main id="main">
-  <!-- Hero -->
-  <section class="hero" id="beranda" aria-labelledby="heroTitle">
-    <div class="hero__bg" aria-hidden="true">
-      <div class="hero__grid"></div>
-      <div class="hero__glow" id="heroGlow"></div>
-      <div class="hero__spot" id="heroSpot"></div>
-    </div>
-    <div class="wrap hero__inner">
-      <div class="hero__copy" id="heroCopy">
-        <p class="eyebrow" id="heroLabel">GLM Laptop Store - Resmi &amp; Bergaransi</p>
-        <h1 id="heroTitle">
-          <span id="heroTitleText">Laptop Impian Kamu,</span>
-          <span class="hero__type" id="heroType" aria-live="polite"></span>
-        </h1>
-        <p class="hero__desc" id="heroDesc">Stok unit asli, garansi resmi, dan konsultasi sebelum beli.</p>
-        <div class="hero__cta">
-          <a class="btn btn--primary" id="magneticBtn" href="#produk">Lihat Stok Ready</a>
-          <a class="btn btn--ghost" id="consultBtn" href="#kontak">Konsultasi Gratis</a>
-        </div>
-        <dl class="hero__stats">
-          <div class="hero__stat">
-            <dt class="sr-only">Jumlah pelanggan</dt>
-            <dd><b id="statCustomers" data-count="0">0</b><span>Pelanggan</span></dd>
-          </div>
-          <div class="hero__stat">
-            <dt class="sr-only">Jumlah model</dt>
-            <dd><b id="statModels" data-count="0">0</b><span>Model tersedia</span></dd>
-          </div>
-          <div class="hero__stat">
-            <dt class="sr-only">Jaminan keaslian</dt>
-            <dd><b id="statWarranty">Garansi Resmi</b><span>Setiap unit</span></dd>
-          </div>
-        </dl>
-      </div>
-
-      <div class="hero__stage">
-        <div class="hero__slides" id="heroSlides"></div>
-        <div class="hero__float">
-          <div class="hero__caption">
-            <b id="heroCaptionName">-</b>
-            <span id="heroCaptionPrice">-</span>
-          </div>
-        </div>
-        <div class="hero__dots" id="heroDots" role="tablist" aria-label="Pilih model unggulan"></div>
-      </div>
-    </div>
-    <p class="hero__scroll" aria-hidden="true"><span>Scroll</span><i></i></p>
-  </section>
-
-  <!-- Marquee -->
-  <section class="marquee" id="merek" aria-label="Merek yang kami jual">
-    <div class="marquee__track" id="marqueeTrack"></div>
-  </section>
-
-  <!-- Produk -->
-  <section class="section" id="produk" aria-labelledby="produkTitle">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Stok hari ini</p>
-          <h2 id="produkTitle">Stok Ready Hari Ini</h2>
-          <p>Semua unit asli dan bergaransi. Klik kartu untuk melihat spesifikasi lengkap.</p>
-        </div>
-        <p class="live">Diperbarui dari dashboard</p>
-      </div>
-
-      <div class="toolbar">
-        <div class="tabs" id="categoryTabs" role="tablist" aria-label="Filter kategori">
-          <button class="tab" role="tab" aria-selected="true" data-cat="all">Semua</button>
-          <button class="tab" role="tab" aria-selected="false" data-cat="gaming">Gaming</button>
-          <button class="tab" role="tab" aria-selected="false" data-cat="office">Kerja / Office</button>
-          <button class="tab" role="tab" aria-selected="false" data-cat="desain">Desain</button>
-          <button class="tab" role="tab" aria-selected="false" data-cat="ultrabook">Ultrabook</button>
-        </div>
-        <p class="eyebrow" id="productCount" style="margin-left:auto"></p>
-      </div>
-
-      <div class="grid-products" id="productGrid"></div>
-      <div class="empty" id="productEmpty" hidden>
-        <h3>Belum ada produk di kategori ini</h3>
-        <p>Produk akan muncul di sini setelah ditambahkan dari dashboard.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Kategori horizontal -->
-  <section class="section section--tight" id="kategori" aria-labelledby="kategoriTitle">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Pilih sesuai kebutuhan</p>
-          <h2 id="kategoriTitle">Kategori Laptop</h2>
-        </div>
-      </div>
-    </div>
-    <div class="hscroll">
-      <div class="hscroll__track" id="catTrack"></div>
-    </div>
-  </section>
-
-  <!-- Pinned showcase -->
-  <section class="pin" id="unggulan" aria-labelledby="pinTitle">
-    <div class="pin__sticky">
-      <div class="wrap pin__grid">
-        <div class="pin__notes" id="pinNotesLeft"></div>
-        <div class="pin__stage">
-          <span class="pin__ring" aria-hidden="true"></span>
-          <img id="pinImage" src="assets/img/hero-rog.jpg" alt="Laptop unggulan GLM" width="900" height="900" loading="lazy">
-        </div>
-        <div class="pin__notes pin__notes--right" id="pinNotesRight">
-          <div class="pin__note">
-            <h4 id="pinTitle">Laptop unggulan</h4>
-            <p>Unit yang paling sering dicari pelanggan kami, dari kelas kerja sampai gaming.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Bento -->
-  <section class="section" id="kenapa" aria-labelledby="kenapaTitle">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Alasan belanja di GLM</p>
-          <h2 id="kenapaTitle">Kenapa Pilih GLM</h2>
-        </div>
-      </div>
-      <div class="bento">
-        <article class="bento__cell bento__cell--wide">
-          <span class="bento__icon"><i data-lucide="shield-check"></i></span>
-          <h3>Garansi Resmi</h3>
-          <p>Setiap unit keluar dengan garansi resmi distributor dan nota pembelian yang jelas.</p>
-        </article>
-        <article class="bento__cell">
-          <span class="bento__icon"><i data-lucide="credit-card"></i></span>
-          <h3>Cicilan 0%</h3>
-          <p>Tenor menyesuaikan kartu dan mitra pembiayaan.</p>
-        </article>
-        <article class="bento__cell bento__cell--tall">
-          <span class="bento__icon"><i data-lucide="truck"></i></span>
-          <h3>Gratis Ongkir</h3>
-          <p>Pengiriman aman dengan packing berlapis untuk area tertentu.</p>
-          <p>Kami juga menyediakan opsi pengiriman instan untuk wilayah kota besar.</p>
-        </article>
-        <article class="bento__cell">
-          <span class="bento__icon"><i data-lucide="repeat"></i></span>
-          <h3>Tukar Tambah</h3>
-          <p>Laptop lama bisa dihitung sebagai pengurang harga.</p>
-        </article>
-        <article class="bento__cell">
-          <span class="bento__icon"><i data-lucide="messages-square"></i></span>
-          <h3>Konsultasi 24/7</h3>
-          <p>Tanya spesifikasi sebelum beli, dijawab langsung lewat WhatsApp.</p>
-        </article>
-        <article class="bento__cell">
-          <span class="bento__icon"><i data-lucide="wrench"></i></span>
-          <h3>Rakit &amp; Upgrade</h3>
-          <p>Tambah RAM atau SSD sebelum unit dikirim.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Promo -->
-  <section class="section" id="promo" aria-labelledby="promoTitle">
-    <div class="wrap">
-      <div class="promo">
-        <div class="promo__body">
-          <p class="eyebrow">Promo berjalan</p>
-          <h2 id="promoTitle">Flash Sale Minggu Ini</h2>
-          <p style="color:var(--muted)" id="promoDesc">Harga khusus untuk unit tertentu selama periode promo.</p>
-          <div class="countdown" id="countdown" aria-label="Sisa waktu promo">
-            <div><b id="cdDays">0</b><span>Hari</span></div>
-            <div><b id="cdHours">0</b><span>Jam</span></div>
-            <div><b id="cdMinutes">0</b><span>Menit</span></div>
-            <div><b id="cdSeconds">0</b><span>Detik</span></div>
-          </div>
-          <p id="promoStatus" style="color:var(--muted);font-size:13px">Jadwal promo belum diisi.</p>
-          <div>
-            <a class="btn btn--primary" href="#produk">Lihat unit promo</a>
-          </div>
-        </div>
-        <div class="promo__media" data-clip>
-          <img src="assets/img/banner-1.jpg" alt="Meja kerja dengan beberapa laptop" width="1600" height="900" loading="lazy">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimoni -->
-  <section class="section" id="ulasan" aria-labelledby="ulasanTitle">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Kata pelanggan</p>
-          <h2 id="ulasanTitle">Ulasan Pelanggan</h2>
-        </div>
-      </div>
-      <div class="swiper" id="reviewSwiper">
-        <div class="swiper-wrapper" id="reviewWrapper"></div>
-        <div class="swiper-pagination"></div>
-      </div>
-      <div class="empty" id="reviewEmpty" hidden>
-        <h3>Belum ada ulasan</h3>
-        <p>Ulasan pelanggan asli akan tampil di sini setelah dikelola dari dashboard.</p>
-      </div>
-    </div>
-  </section>
-</main>
-
-<!-- Footer -->
-<footer class="footer" id="kontak">
-  <div class="wrap">
-    <div class="footer__cols">
-      <div>
-        <h4>Tentang GLM</h4>
-        <p style="color:var(--muted);font-size:14px">
-          GLM Laptop Store menjual laptop original bergaransi untuk kebutuhan kerja, desain, dan gaming.
-          Kami bantu pilih unit yang sesuai sebelum kamu beli.
-        </p>
-      </div>
-      <div>
-        <h4>Navigasi</h4>
-        <ul>
-          <li><a href="#produk">Stok Ready</a></li>
-          <li><a href="#merek">Merek</a></li>
-          <li><a href="#promo">Promo</a></li>
-          <li><a href="#ulasan">Ulasan</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Kontak</h4>
-        <ul>
-          <li><a id="footerWa" href="#">WhatsApp</a></li>
-          <li><a id="footerMail" href="mailto:halo@glm.local">halo@glm.local</a></li>
-          <li><span id="footerAddress" style="color:var(--muted);font-size:14px">Alamat belum diisi</span></li>
-        </ul>
-        <ul style="margin-top:var(--sp-4)">
-          <li><a id="socialIg" href="#" rel="noopener noreferrer" target="_blank" hidden>Instagram</a></li>
-          <li><a id="socialTt" href="#" rel="noopener noreferrer" target="_blank" hidden>TikTok</a></li>
-          <li><a id="socialYt" href="#" rel="noopener noreferrer" target="_blank" hidden>YouTube</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Lokasi &amp; Info</h4>
-        <div class="footer__map" id="footerMap"></div>
-        <form class="newsletter" id="newsletterForm">
-          <label class="sr-only" for="newsletterEmail">Email untuk info promo</label>
-          <input id="newsletterEmail" type="email" placeholder="Email kamu" required>
-          <button class="btn btn--primary btn--sm" type="submit">Kirim</button>
-        </form>
-        <p id="newsletterNote" style="color:var(--muted);font-size:12px;margin-top:8px">
-          Kami kirim info stok dan promo baru.
-        </p>
-      </div>
-    </div>
-  </div>
-  <p class="footer__word" id="footerWord" aria-hidden="true">GLM</p>
-  <div class="wrap footer__base">
-    <span>&copy; <span id="year"></span> GLM Laptop Store</span>
-    <span>Harga dapat berubah tanpa pemberitahuan.</span>
-  </div>
-</footer>
-
-<button class="wa" id="waFloat" type="button" aria-label="Hubungi kami lewat WhatsApp">
-  <i data-lucide="message-circle"></i><span>Chat WhatsApp</span>
-</button>
-
-<!-- Keranjang -->
-<div class="drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
-  <div class="drawer__scrim" data-close-cart></div>
-  <div class="drawer__panel">
-    <div class="drawer__head">
-      <h3 id="cartTitle">Keranjang</h3>
-      <button class="icon-btn" type="button" data-close-cart aria-label="Tutup keranjang"><i data-lucide="x"></i></button>
-    </div>
-    <div class="drawer__list" id="cartList"></div>
-    <div class="drawer__foot">
-      <div class="cart-total"><span>Total estimasi</span><b id="cartTotal">Rp 0</b></div>
-      <p style="color:var(--muted);font-size:12px">Total final dikonfirmasi lewat WhatsApp.</p>
-      <button class="btn btn--primary btn--block" id="checkoutBtn" type="button">
-        <i data-lucide="send"></i> Pesan lewat WhatsApp
-      </button>
-      <button class="btn btn--ghost btn--block btn--sm" id="clearCart" type="button">Kosongkan keranjang</button>
-    </div>
-  </div>
-</div>
-
-<!-- Quick view -->
-<div class="modal" id="productModal" role="dialog" aria-modal="true" aria-labelledby="modalName">
-  <div class="modal__scrim" data-close-modal></div>
-  <div class="modal__panel">
-    <button class="icon-btn modal__close" type="button" data-close-modal aria-label="Tutup detail produk"><i data-lucide="x"></i></button>
-    <div class="modal__media"><img id="modalImage" src="" alt="" width="800" height="600"></div>
-    <div class="modal__body">
-      <p class="card__brand" id="modalBrand"></p>
-      <h3 id="modalName"></h3>
-      <p id="modalSummary" style="color:var(--muted);font-size:14px"></p>
-      <ul class="specs" id="modalSpecs"></ul>
-      <p id="modalNotes" style="color:var(--muted);font-size:13px"></p>
-      <div class="card__price"><b id="modalPrice"></b><s id="modalOld"></s></div>
-      <div style="display:flex;gap:var(--sp-2);margin-top:auto">
-        <button class="btn btn--primary btn--block" id="modalAdd" type="button">Tambah ke Keranjang</button>
-        <button class="btn btn--ghost" id="modalWa" type="button" aria-label="Tanya lewat WhatsApp"><i data-lucide="message-circle"></i></button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="toast-stack" id="toasts" aria-live="polite" aria-atomic="false"></div>
-
-<script src="assets/lib/gsap.min.js" defer></script>
-<script src="assets/lib/ScrollTrigger.min.js" defer></script>
-<script src="assets/lib/SplitText.min.js" defer></script>
-<script src="assets/lib/lenis.min.js" defer></script>
-<script src="assets/lib/typed.umd.js" defer></script>
-<script src="assets/lib/swiper-bundle.min.js" defer></script>
-<script src="assets/lib/vanilla-tilt.min.js" defer></script>
-<script src="assets/lib/lucide.min.js" defer></script>
-<script src="assets/js/ui.js" defer></script>
-<script src="assets/js/bubbles.js" defer></script>
-<script src="assets/js/site.js" defer></script>
-<script src="assets/js/secret-login.js" defer></script>
-</body>
-</html>
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GLM LAPTOP STORE</title><style>
+:root{--bg:#0b0f19;--c:#131a2a;--b:#24304a;--g:#d4af37;--t:#f1f5f9;--m:#94a3b8}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}body{background:var(--bg);color:var(--t);padding-bottom:40px}
+header{background:#0f1624;border-bottom:1px solid var(--b);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:9}
+.brand{font-weight:800;font-size:18px;color:var(--g)}.brand small{display:block;color:#fff;font-size:11px;font-weight:500}
+nav button{background:var(--c);color:var(--t);border:1px solid var(--b);padding:7px 12px;border-radius:8px;font-weight:600;margin-left:6px;cursor:pointer}
+nav button.on{background:var(--g);color:#000;border-color:var(--g)}.wrap{max-width:960px;margin:0 auto;padding:14px}
+.box{background:var(--c);border:1px solid var(--b);border-radius:12px;padding:14px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.card{background:var(--c);border:1px solid var(--b);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.card img{width:100%;height:185px;object-fit:cover;background:#090d16}.cb{padding:14px;flex:1;display:flex;flex-direction:column}
+.tag{background:rgba(212,175,55,.15);color:var(--g);border:1px solid rgba(212,175,55,.35);padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;width:fit-content;margin-bottom:6px}
+.prc{color:var(--g);font-weight:800;font-size:17px;margin:4px 0 8px}.spc{color:var(--m);font-size:13px;white-space:pre-line;flex:1;margin-bottom:12px;line-height:1.4}
+.btn{display:block;width:100%;text-align:center;padding:10px;border-radius:8px;border:0;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px}
+.wa{background:#10b981;color:#fff}.gold{background:var(--g);color:#000;margin-top:12px}
+.del{background:#ef4444;color:#fff;border:0;padding:6px 10px;border-radius:6px;font-weight:700;cursor:pointer}
+label{display:block;font-size:12px;color:var(--m);margin:10px 0 4px;font-weight:600}
+input,textarea,select{width:100%;background:var(--bg);border:1px solid var(--b);color:#fff;padding:10px;border-radius:8px;font-size:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.msg{margin-top:10px;padding:10px;border-radius:8px;font-size:13px;display:none}
+.msg.ok{display:block;background:rgba(16,185,129,.15);border:1px solid #10b981;color:#6ee7b7}
+.msg.er{display:block;background:rgba(239,68,68,.15);border:1px solid #ef4444;color:#fca5a5}.hide{display:none!important}
+.item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px;border:1px solid var(--b);border-radius:8px;margin-top:8px;background:var(--bg)}
+.item img{width:48px;height:48px;object-fit:cover;border-radius:6px}
+</style></head><body>
+<header><div class="brand">GLM LAPTOP<small>Stok Resmi &amp; Bergaransi</small></div>
+<nav><button id="t1" class="on" onclick="tab(1)">Katalog</button><button id="t2" onclick="tab(2)">Admin</button></nav></header>
+<div class="wrap">
+<div id="v1"><div class="box"><h3>Katalog Laptop Ready Stok</h3><p style="color:var(--m);font-size:13px;margin-top:4px">Unit dicek ketat, siap kirim/COD, bergaransi. Klik unit untuk pesan via WhatsApp.</p></div><div id="grid" class="grid">Memuat stok...</div></div>
+<div id="v2" class="hide">
+<div class="box"><h3 style="color:var(--g)">1. Pengaturan GitHub, WA &amp; Jadwal Bot</h3>
+<label>GitHub Token</label><input type="password" id="tk" placeholder="ghp_... atau github_pat_...">
+<div class="row"><div><label>No WA Admin (62...)</label><input id="wa" placeholder="6281234567890"></div>
+<div><label>Jadwal Post FB</label><input id="jd" value="05:00, 11:00, 17:00"></div></div>
+<button class="btn gold" onclick="saveCfg()">Simpan &amp; Sinkron Jadwal</button><div id="m1" class="msg"></div></div>
+<div class="box"><h3 style="color:var(--g)">2. Tambah Laptop Baru</h3>
+<label>Nama / Judul Laptop</label><input id="nm" placeholder="Lenovo ThinkPad X1 Carbon i7 RAM 16GB">
+<div class="row"><div><label>Harga (angka saja)</label><input type="number" id="hg" placeholder="5500000"></div>
+<div><label>Kategori</label><select id="kt"><option>Laptop Kerja &amp; Kuliah</option><option>Laptop Gaming &amp; Desain</option><option>MacBook</option></select></div></div>
+<label>Spesifikasi &amp; Kelengkapan</label><textarea id="sp" rows="3" placeholder="Spek &amp; kelengkapan..."></textarea>
+<label>Foto Laptop</label><input type="file" id="ft" accept="image/*">
+<button class="btn gold" id="bAdd" onclick="addUnit()">Upload &amp; Simpan ke Web + Bot FB</button><div id="m2" class="msg"></div></div>
+<div class="box"><h3 style="color:var(--g)">3. Stok Aktif (<span id="cnt">0</span>)</h3><div id="lst"></div></div>
+</div></div><script>
+const OW="andikur01",RW="web1",RB="bot-auto-fb";let db=[];
+const $=id=>document.getElementById(id),rp=n=>"Rp "+Number(n||0).toLocaleString("id-ID"),b64u=s=>btoa(unescape(encodeURIComponent(s)));
+const tab=n=>{["v1","v2"].forEach((x,i)=>$(x).classList.toggle("hide",i+1!==n));["t1","t2"].forEach((x,i)=>$(x).classList.toggle("on",i+1===n))};
+const note=(id,ok,t)=>{const e=$(id);e.className="msg "+(ok?"ok":"er");e.textContent=t};
+async function ghGet(r,p,tk){const h={Accept:"application/vnd.github.v3+json"};if(tk)h.Authorization="token "+tk;const x=await fetch(`https://api.github.com/repos/${OW}/${r}/contents/${p}?t=${Date.now()}`,{headers:h});return x.ok?x.json():null}
+async function ghPut(r,p,c,m,tk){const ex=await ghGet(r,p,tk),b={message:m,content:c};if(ex&&ex.sha)b.sha=ex.sha;const x=await fetch(`https://api.github.com/repos/${OW}/${r}/contents/${p}`,{method:"PUT",headers:{Authorization:"token "+tk,Accept:"application/vnd.github.v3+json","Content-Type":"application/json"},body:JSON.stringify(b)});if(!x.ok){const e=await x.json().catch(()=>({}));throw new Error(e.message||x.status)}}
+const comp=f=>new Promise((res,rej)=>{const rd=new FileReader();rd.onload=e=>{const im=new Image();im.onload=()=>{const cv=document.createElement("canvas"),sc=im.width>1080?1080/im.width:1;cv.width=Math.round(im.width*sc);cv.height=Math.round(im.height*sc);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);res(cv.toDataURL("image/jpeg",.82).split(",")[1])};im.onerror=rej;im.src=e.target.result};rd.onerror=rej;rd.readAsDataURL(f)});
+function draw(){
+ const w=localStorage.getItem("glm_wa")||"6281234567890";
+ $("grid").innerHTML=db.length?db.map(u=>`<div class="card"><img src="./${u.foto||""}" onerror="this.style.display='none'"><div class="cb"><span class="tag">${u.kategori||"Ready"}</span><b>${u.nama||u.judul}</b><div class="prc">${rp(u.harga)}</div><div class="spc">${u.spek||u.deskripsi||""}</div><a class="btn wa" target="_blank" href="https://wa.me/${w}?text=${encodeURIComponent("Halo GLM Laptop, minat: "+(u.nama||u.judul)+" ("+rp(u.harga)+")")}">Beli / Tanya WhatsApp</a></div></div>`).join(""):`<div class="box" style="grid-column:1/-1;text-align:center;color:var(--m)">Belum ada stok laptop dipajang.</div>`;
+ $("cnt").textContent=db.length;
+ $("lst").innerHTML=db.length?db.map((u,i)=>`<div class="item"><div style="display:flex;align-items:center;gap:10px"><img src="./${u.foto||""}" onerror="this.style.display='none'"><div><b>${u.nama||u.judul}</b><div style="color:var(--g);font-size:13px">${rp(u.harga)}</div></div></div><button class="del" onclick="delUnit(${i})">Hapus</button></div>`).join(""):`<p style="color:var(--m);font-size:13px">Stok kosong.</p>`;
+}
+async function load(){try{const r=await fetch("./stok.json?t="+Date.now());db=r.ok?await r.json():[]}catch(e){db=[]}draw()}
+async function saveCfg(){
+ const tk=$("tk").value.trim(),wa=$("wa").value.trim(),jd=$("jd").value.trim();if(!tk)return note("m1",0,"Isi GitHub Token dulu.");
+ localStorage.setItem("glm_tk",tk);if(wa)localStorage.setItem("glm_wa",wa);localStorage.setItem("glm_jd",jd);
+ const jam=jd.split(",").map(s=>s.trim()).filter(Boolean);
+ try{note("m1",1,"Menyinkronkan jadwal...");await ghPut(RB,"jadwal.json",b64u(JSON.stringify({aktif:true,jadwal:jam,jam:jam},null,2)),"Update jadwal",tk);note("m1",1,"Jadwal ("+jam.join(", ")+") tersinkron!");draw()}catch(e){note("m1",0,"Gagal: "+e.message)}
+}
+async function addUnit(){
+ const tk=$("tk").value.trim()||localStorage.getItem("glm_tk")||"",nm=$("nm").value.trim(),hg=Number($("hg").value||0),kt=$("kt").value,sp=$("sp").value.trim(),fl=$("ft").files[0];
+ if(!tk)return note("m2",0,"Isi Token di bagian 1 dulu.");if(!nm||!hg||!fl)return note("m2",0,"Nama, harga, & foto wajib diisi.");$("bAdd").disabled=1;
+ try{
+  note("m2",1,"Mengunggah foto...");const img=await comp(fl),id="GLM-"+Date.now(),fp=`images/${id}.jpg`;
+  await ghPut(RW,fp,img,"Foto "+id,tk);await ghPut(RB,fp,img,"Foto "+id,tk);
+  const nx=[{id,nama:nm,judul:nm,harga:hg,kategori:kt,spek:sp,deskripsi:sp,foto:fp,status:"ready"},...db],jb=b64u(JSON.stringify(nx,null,2));
+  note("m2",1,"Menyimpan stok...");await ghPut(RW,"stok.json",jb,"Tambah "+nm,tk);await ghPut(RB,"stok.json",jb,"Tambah "+nm,tk);
+  db=nx;$("nm").value="";$("hg").value="";$("sp").value="";$("ft").value="";draw();note("m2",1,"BERHASIL! Unit tampil di web & siap dipost bot FB.");
+ }catch(e){note("m2",0,"Gagal: "+e.message)}finally{$("bAdd").disabled=0}
+}
+async function delUnit(i){
+ const tk=$("tk").value.trim()||localStorage.getItem("glm_tk")||"";if(!tk)return alert("Isi Token dulu");if(!confirm("Hapus unit ini?"))return;
+ try{const nx=db.filter((_,x)=>x!==i),jb=b64u(JSON.stringify(nx,null,2));await ghPut(RW,"stok.json",jb,"Hapus unit",tk);await ghPut(RB,"stok.json",jb,"Hapus unit",tk);db=nx;draw()}catch(e){alert("Gagal: "+e.message)}
+}
+window.onload=()=>{$("tk").value=localStorage.getItem("glm_tk")||"";$("wa").value=localStorage.getItem("glm_wa")||"";$("jd").value=localStorage.getItem("glm_jd")||"05:00, 11:00, 17:00";if(location.hash==="#admin")tab(2);load()};
+</script></body></html>
